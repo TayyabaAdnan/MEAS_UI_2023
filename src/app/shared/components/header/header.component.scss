@@ -1,0 +1,84 @@
+
+
+.navbar-icon-top .navbar-nav .nav-link > .fa {
+  position: relative;
+  width: 36px;
+  font-size: 24px;
+}
+.bg-dark{
+  background-color: #08319b !important;
+}
+a{
+  color: white !important;
+}
+.dropdown-menu > a{
+  color: black !important;
+}
+.navbar-toggler{
+  width: 47px;
+  height: 34px;
+  background-color: #08319b;
+  border:none;
+}
+.navbar-toggler .line{
+  width: 100%;
+  float: left;
+  height: 2px;
+  background-color: #fff;
+  margin-bottom: 5px;
+}
+.navbar-icon-top .navbar-nav .nav-link > .fa > .badge {
+  font-size: 0.75rem;
+  position: absolute;
+  right: 0;
+  font-family: sans-serif;
+}
+.navbar-icon-top .navbar-nav .nav-link > .fa {
+  top: 3px;
+  line-height: 12px;
+}
+.navbar-icon-top .navbar-nav .nav-link > .fa > .badge {
+  top: -10px;
+}
+.navbar-height{
+  height: 5%;
+  width: 4%;
+}
+.navbar-toggler {
+  position: relative; 
+  right: 0;
+}
+
+$desktop: 960px;
+$tablet: 768px;
+$mobile-large: 640px;
+$mobile: 480px;
+$mobile-small: 300px;
+
+@media only screen and (max-width: $mobile-small){
+  .navbar-height{
+    width: 17% !important;
+  }
+}
+@media only screen and (max-width: $mobile){
+  
+  .navbar-height{
+    width: 17% !important;
+  }
+}
+@media only screen and (max-width: $mobile-large){
+  .navbar-height{
+    width: 17% !important;
+  }
+  .navbar-toggler {
+    position: relative !important;
+}
+}
+@media only screen and (max-width: $tablet){
+  .navbar-height{
+    width: 14% !important;
+  }
+}
+@media only screen and (max-width: $desktop) {
+  
+}

@@ -1,0 +1,238 @@
+.img-dialog{
+  background: url(../../../assets//images/synergyLoginImage.jpg);
+  max-width: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-repeat: no-repeat;
+}
+.hide{
+  display: block;
+}
+$desktop: 960px;
+$tablet: 768px;
+$mobile-large: 640px;
+$mobile: 480px;
+$mobile-small: 300px;
+
+// @media only screen and (max-width :  $desktop/$tablet/$mobile-large/$mobile/$mobile-small)
+
+@media only screen and (max-width: $desktop){
+    .login-dialog{
+    max-width: 50% !important;
+    width: 50% !important;
+      }
+    .img-dialog{
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .hide{
+        display: block;
+      }
+}
+
+@media only screen and (max-width: $tablet){
+    .login-dialog{
+        max-width: 50% !important;
+        width: 50% !important;
+      }
+    .img-dialog{
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .hide{
+        display: block;
+      }
+      .hex-grid {
+        margin-top: 65%;
+    }
+    
+    
+  }
+
+  @media only screen and (max-width: $mobile-large){
+    .login-dialog{
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+    .img-dialog{
+        max-width: 50% !important;
+        width: 50% !important;
+        display: none;
+      }
+      .hide{
+        display: none;
+      }
+      .row{
+        display: flex !important;
+        flex-wrap: wrap !important;
+        margin-right: 0px !important;
+         margin-left: 0px !important;
+    }
+    }
+
+    @media only screen and (max-width: $mobile){
+        .login-dialog{
+            max-width: 100% !important;
+            width: 100% !important;
+          }
+        .img-dialog{
+            max-width: 50% !important;
+            width: 50% !important;
+            display: none;
+          }
+          .hide{
+            display: none;
+          }
+          .row{
+            display: flex !important;
+            flex-wrap: wrap !important;
+            margin-right: 0px !important;
+             margin-left: 0px !important; 
+        }
+      }
+
+@media only screen and (max-width: $mobile-small){
+    .login-dialog{
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+    .img-dialog{
+        max-width: 50% !important;
+        width: 50% !important;
+        display: none;
+      }
+      .hide{
+        display: none;
+      }
+      .row{
+        display: flex !important;
+        flex-wrap: wrap !important;
+        margin-right: 0px !important;
+         margin-left: 0px !important;
+    }
+}
+
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.mapbg {
+  opacity: 0.3;
+  background-color: #fff;
+  background-image: url(../../../assets/images/pakMap.png);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background-size: auto;
+  background-position: 300px -30px;
+  left: 0px;
+  top: 0px;
+}
+ .left-log {
+  background: #fff;
+  overflow: hidden;
+  padding: 0px;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+}
+ol, ul {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.hex-grid {
+  z-index: 99;
+  position: relative;
+  margin: 5% auto;
+  width: 350px;
+  display: block;
+  margin-top: 20%;
+  min-height: 300px;
+}
+.list-unstyled {
+  /* padding-left: 0; */
+  list-style: none;
+}
+.hex-grid .svg-hex-1 {
+  top: 0px !important;
+  left: 0px !important;
+  width: 47%;
+}
+.hex-grid .svg-hex-2 {
+  top: 0px !important;
+  left: 148px !important;
+  width: 47%;
+  margin-top: -49%;
+  margin-left: 43%;
+}
+.hex-grid .svg-hex-3 {
+  top: 122px !important;
+  left: 74px !important;
+  width: 47%;
+  margin-left: -21%;
+    margin-top: -12%;
+}
+
+.hex-grid .svg-hex-4 {
+  top: 122px !important;
+  left: 222px !important;
+  width: 47%;
+  margin-top: -49%;
+    margin-left: 22%;
+}
+.hex-grid .svg-hex-5 {
+  top: 244px !important;
+  left: 148px !important;
+  width: 47%;
+  margin-top: -49%;
+    margin-left: 65%;
+}
+.hex-grid .svg-hex-6 {
+  top: 244px !important;
+  left: 0px !important;
+  width: 47%;
+  margin-left: 0.25%;
+  margin-top: -12%;
+}
+.hex-grid .svg-hex-7 {
+  top: 122px !important;
+  left: -74px !important;
+  width: 47%;
+  margin-top: -49%;
+  margin-left: 44%;
+}
+.right-log {
+  padding: 0px;
+  position: fixed;
+  right: 0px;
+   background: rgba(236, 238, 241, 0.5); 
+  border-left: 1px solid #cfd8dc;
+  top: 0px;
+  height: 100%;
+}
+.login-page .corner-ribbon.blue {
+  background: #39d;
+}
+.login-wrap {
+  position: relative;
+  margin: 10% auto;
+  width: 78%;
+}
+.login-wrap .logo-wrap {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+}
+.login-wrap .logo-wrap .brand {
+  // height: 150px;
+  height: 5%;
+  width: 30%
+}
+.login-wrap .form-wrap {
+  width: 100%;
+}

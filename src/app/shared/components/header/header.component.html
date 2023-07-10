@@ -1,0 +1,173 @@
+<!-- Page Header Start -->
+<!-- <div class="page-main-header" [ngClass]="{'open' : navServices.collapseSidebar}" id="page-main-header">
+    <div class="main-header-right row">
+        <div class="main-header-left d-lg-none">
+            <div class="logo-wrapper">
+                <a href="javascript::void(0)"><img src="assets/images/gop.png" alt=""></a>
+            </div>
+        </div>
+        <div class="mobile-sidebar">
+            <div class="media-body text-right switch-sm">
+                <label class="switch">
+          <a href="javascript:void(0)" (click)="collapseSidebar()">
+            <app-feather-icons id="sidebar-toggle" [icon]="'align-left'"></app-feather-icons>
+          </a>
+        </label>
+            </div>
+        </div>
+        <div class="nav-right col">
+            <ul class="nav-menus" [ngClass]="{'open' : openNav}">
+                <li>
+                    <form class="form-inline search-form">
+                        <div class="form-group">
+                            <input class="form-control-plaintext" [class.open]="isOpenMobile" [(ngModel)]="text" [ngModelOptions]="{standalone: true}" (keyup)="searchTerm(text)" type="text" autocomplete="off" placeholder="Search..">
+                            <span class="d-sm-none mobile-search">
+                <app-feather-icons [icon]="'search'" (click)="isOpenMobile=!isOpenMobile"></app-feather-icons>
+              </span>
+                            <div class="Typeahead-menu" [class.is-open]="searchResult" *ngIf="menuItems?.length" id="search-outer">
+                                <div class="ProfileCard u-cf" *ngFor="let menuItem of menuItems | slice:0:8">
+                                    <div class="ProfileCard-avatar">
+                                        <app-feather-icons [icon]="menuItem.icon" class="header-search"></app-feather-icons>
+                                    </div>
+                                    <div class="ProfileCard-details">
+                                        <div class="ProfileCard-realName">
+                                            <a [routerLink]="menuItem?.path" class="realname" (click)="removeFix()">{{menuItem?.title}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="Typeahead-menu" [class.is-open]="searchResultEmpty">
+                                <div class="tt-dataset tt-dataset-0">
+                                    <div class="EmptyMessage">
+                                        Opps!! There are no result found.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="text-dark" (click)="toggleFullScreen()">
+                        <app-feather-icons [icon]="'maximize'"></app-feather-icons>
+                    </a>
+                </li>
+                <li class="onhover-dropdown">
+                    <div class="media align-items-center"><img class="align-self-center pull-right img-50 rounded-circle" src="assets/images/dashboard/user.png" alt="header-user">
+                        <div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
+                    </div>
+                    <ul class="navbar-nav profile-dropdown onhover-show-div p-20">
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: black !important;">
+                                <app-feather-icons [icon]="'user'"></app-feather-icons>
+                                {{user?.Name}}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" (click)="signOut()" style="color: black !important;">
+                                <app-feather-icons [icon]="'log-out'"></app-feather-icons>
+                                Log Out
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="d-lg-none mobile-toggle pull-right" (click)="openMobileNav()">
+                <app-feather-icons [icon]="'more-horizontal'"></app-feather-icons>
+            </div>
+        </div>
+    </div>
+</div> -->
+<nav class="navbar navbar-icon-top navbar-expand-lg fixed-top bg-dark" *ngIf="isVisible">
+    <a class="navbar-brand navbar-height" routerLink="#"><img src="../../../../assets/images/PSPU Logo-01.png" height="55%" width="220%" /></a>
+
+    <button class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" aria-expanded="false">
+    <span class="line"></span> 
+    <span class="line"></span> 
+    <span class="line" style="margin-bottom: 0;"></span>
+</button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 5%;">
+        <ul class="navbar-nav mr-auto" *ngIf="isVisible">
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <app-feather-icons [icon]="'bar-chart'"></app-feather-icons>
+                    Dashboard
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown">
+                    <a class="dropdown-item" routerLink="/dashboard" *ngIf="user?.UserId == 1 || user?.UserId == 6">Main</a>
+                    <a class="dropdown-item" routerLink="/dashboard/counts">Counts</a>
+                    <a class="dropdown-item" routerLink="/dashboard/indicatordetail"  *ngIf="user?.UserId == 1  || user?.UserId == 6">Indicator Detail</a>
+                </div>
+            </li>
+
+
+            <li class="nav-item dropdown" *ngIf="user?.UserId != 184 && user?.UserId != 185 && user?.UserId != 186
+            && user?.UserId != 187 && (user?.UserId < 198 || user?.UserId > 235)">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <app-feather-icons [icon]="'file-text'"></app-feather-icons>
+                    Setting
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown">
+                    <a class="dropdown-item" routerLink="/set/repeatpercentlist" *ngIf="user?.UserId == 1  || user?.UserId == 6">Repeat Visits %</a>
+                    <a class="dropdown-item" routerLink="/set/zonelist" *ngIf="user?.UserId == 1 || user?.UserId == 6">Zone</a>
+                    <a class="dropdown-item" routerLink="/set/zonehf" *ngIf="user?.UserId == 1 || user?.UserId == 6">Zone Health Facility</a>
+                    <a class="dropdown-item" routerLink="/set/activehf" *ngIf="user?.UserId == 1  || user?.UserId == 6">Active/InActive HF</a>
+                    <a class="dropdown-item" routerLink="/setting/categorylist" *ngIf="user?.UserId == 1">Category</a>
+                    <a class="dropdown-item" routerLink="/setting/subcategorylist" *ngIf="user?.UserId == 1">Sub Category</a>
+                    <a class="dropdown-item" routerLink="/indicator" *ngIf="user?.UserId == 1">Indicator</a>
+                    <a class="dropdown-item" routerLink="/indicator/viewindicators">View Indicator</a>
+                    <a class="dropdown-item" routerLink="/indicator/physicalview" *ngIf="user?.UserId == 1 || user?.UserId == 6">Indicator Change(PC)</a>
+                    <a class="dropdown-item" routerLink="/set/specialvisits" *ngIf="user?.UserId == 1 || user?.UserId == 6">Assign Visits</a>
+                    <a class="dropdown-item" routerLink="/set/measvisits" *ngIf="user?.UserId == 1  || user?.UserId == 6">MEAs Visits</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <app-feather-icons [icon]="'user'"></app-feather-icons>
+                    Monitoring
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown">
+                    <a class="dropdown-item" routerLink="/evaluation/list">Monitoring Data<span class="sr-only">(current)</span></a>
+                    <a class="dropdown-item" routerLink="/evaluation/list-new">Monitoring Data New<span class="sr-only">(current)</span></a>
+                    <a class="dropdown-item" routerLink="/evaluation/hfblist">DHQ/THQ Beds Survey<span class="sr-only">(current)</span></a>
+                    <!-- <a class="dropdown-item" routerLink="/evaluation/bemonc">BEmONC-KDC</a> -->
+                </div>
+
+                <div class="dropdown-menu" aria-labelledby="dropdown">
+                    <a class="dropdown-item" routerLink="/evaluation/list-new">Monitoring Data New<span class="sr-only">(current)</span></a>
+                    <!-- <a class="dropdown-item" routerLink="/evaluation/bemonc">BEmONC-KDC</a> -->
+                </div>
+                
+            </li>
+
+            <li class="nav-item dropdown" *ngIf="user?.UserId == 1 || user?.UserId == 6">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <app-feather-icons [icon]="'file-text'"></app-feather-icons>
+                    UMS
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown">
+                    <a class="dropdown-item" routerLink="/ums/userlist">Users</a>
+                    <a class="dropdown-item" routerLink="/ums/userupload" *ngIf="user?.UserId == 1">Upload Users</a>
+                </div>
+            </li>
+        </ul>
+       <!-- style="width: 317px;" -->
+        <ul *ngIf="isVisible" >
+            <!-- <li class="nav-item">
+                <a class="nav-link">
+                    <app-feather-icons [icon]="'user'"></app-feather-icons>
+                    {{user?.Name}}
+                </a>
+            </li> -->
+            <li class="nav-item">
+                {{user?.Name}}
+                <a class="nav-link" (click)="signOut()">
+                    <app-feather-icons [icon]="'log-out'"></app-feather-icons>
+                    Log Out
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</nav>

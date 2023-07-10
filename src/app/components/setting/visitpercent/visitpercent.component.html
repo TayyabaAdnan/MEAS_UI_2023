@@ -1,0 +1,59 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-xl-12">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h6>{{RepeatVisitMode}}</h6>
+                    </div>
+                    <div class="card-body" [Loader]="loaderService.isLoading | async">
+                        <form [formGroup]="RepeatVisitForm">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Month</label>
+                                    <select class="form-control digits" formControlName="Month"
+                                    [attr.disabled]="this.repeatVisitId > 0?'':null">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of months" [value]="m">{{m}}</option>
+                                    </select>
+                                    <div *ngIf="submit && RepeatVisitForm.controls.Month.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Month is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="Year">Year</label>
+                                    <select class="form-control digits" formControlName="Year"
+                                    [attr.disabled]="this.repeatVisitId > 0?'':null">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of years" [value]="m">{{m}}</option>
+                                    </select>
+                                    <div *ngIf="submit && RepeatVisitForm.controls.DivisionCode.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Year is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="RepeatVisitPercent">Percentage %</label>
+                                    <input class="form-control" id="RepeatVisitPercent" type="number" name="RepeatVisitPercent"
+                                        formControlName="RepeatVisitPercent" placeholder="%" autocomplete="off" (input)="chekcValidPercent($event)">
+                                    <div *ngIf="(RepeatVisitForm.controls.RepeatVisitPercent.touched || submit) && RepeatVisitForm.controls.RepeatVisitPercent.errors?.required"
+                                        class="text text-danger mt-1">
+                                        % is required
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="d-block" for="IsActive" style="margin-top:7%;">
+                                        <input class="checkbox_animated" id="IsActive" name="IsActive" type="checkbox"
+                                            checked="" formControlName="IsActive">Active
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" (click)="save()">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

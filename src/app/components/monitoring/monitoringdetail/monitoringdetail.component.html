@@ -1,0 +1,305 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 50px;" [Loader]="loaderService.isLoading | async">
+        <!-- <div class="col-xl-12">
+            <button class="btn btn-primary" style="float: right;margin-top: 2%;" (click)="downloadAsPDF()">Export</button>
+        </div> -->
+        <div class="col-xl-12" id="pdfTable" #pdfTable>
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-body pb-0">
+                        <div class="media">
+                            <div class="media-body">
+                                <h6 class="f-w-600"><a href="javascript:void(0)">Monitoring Detail</a></h6>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">Application Type : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.ApplicationTypeName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">Module : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.ModuleName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">Division : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.DivisionName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">District : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.DistrictName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">Tehsil: </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.TehsilName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">HF Type : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.FaciltyTypeName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">HF Name : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.HealthFacilityName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">Shift : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.ShiftName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group" *ngIf="MonitoringDetail?.InchargeName != '' && MonitoringDetail?.InchargeName != null">
+                                <label class="f-w-600">Incharge Name : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.InchargeName}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group" *ngIf="MonitoringDetail?.InchargeMobileNo != '' && MonitoringDetail?.InchargeMobileNo != null">
+                                <label class="f-w-600">Incahrge Contact # : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.InchargeMobileNo}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group" *ngIf="MonitoringDetail?.InchargeCNIC != '' && MonitoringDetail?.InchargeCNIC != null">
+                                <label class="f-w-600">Incharge CNIC : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.InchargeCNIC}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group" *ngIf="MonitoringDetail?.InchargeDesignation != '' && MonitoringDetail?.InchargeDesignation != null">
+                                <label class="f-w-600">Incharge Designation : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.InchargeDesignation}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">Monitored By : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.CreatedBy}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">Monitored On : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.CreatedOn | date: 'dd/MM/yyyy hh:mm:ss a'}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="f-w-600">Sync On : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail?.SyncOn | date: 'dd/MM/yyyy hh:mm:ss a'}}</span>
+                            </div>
+                        </div>
+                        <div class="form-row" *ngIf="MonitoringDetail?.ModuleName == 'Monitoring'">
+                            <div class="col-md-4 mb-3 form-group">
+                                <label class="d-block f-w-600" for="IsOpeened">Facility Opened :
+                                    <input class="checkbox_animated" id="IsOpeened" name="IsOpeened" type="checkbox"
+                                        [checked]="MonitoringDetail.FacilityStatus">
+                                </label>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group" *ngIf="MonitoringDetail.FacilityStatus == true">
+                                <label class="d-block f-w-600" for="islegal">Illegal Occupation :
+                                    <input class="checkbox_animated" id="islegal" name="islegal" type="checkbox"
+                                        checked="MonitoringDetail.IllegalOccupation">
+                                </label>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group" *ngIf="MonitoringDetail.IllegalOccupation == true && MonitoringDetail.FacilityStatus == true">
+                                <label class="f-w-600">Illegal Occupation Since : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail.IllegalOccupationSince | date: 'dd/MM/yyyy'}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group" *ngIf="MonitoringDetail.FacilityStatus == true">
+                                <label class="f-w-600">Whole or Part : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail.WholeOrPart}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3 form-group" *ngIf="MonitoringDetail.FacilityStatus != true">
+                                <label class="f-w-600">Close Reason : </label>
+                                <span style="margin-left: 2%;">{{MonitoringDetail.CloseReason}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ngb-accordion [closeOthers]="true" [Loader]="loaderService.isLoading | async">
+                <ngb-panel id="Attendance" title="Attendance" class="titleA" *ngIf="MonitoringDetail?.monitoringAttendaces != null && MonitoringDetail?.monitoringAttendaces.length > 0">
+                    <ng-template ngbPanelContent class="contentA">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>Sr No.</td>
+                                            <td>Name</td>
+                                            <td>CNIC</td>
+                                            <td>Designation</td>
+                                            <td>Contact #</td>
+                                            <td>Status</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let employee of MonitoringDetail.monitoringAttendaces;index as i">
+                                            <td>{{i+1}}</td>
+                                            <td>{{employee.Name}}</td>
+                                            <td>{{employee.CNIC}}</td>
+                                            <td>{{employee.DesignationName}}</td>
+                                            <td>{{employee.ContactNo}}</td>
+                                            <td>{{employee.PresentStatus}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel id="{{categories.CaegoryId}}" title="{{categories.CategoryName | uppercase}}" *ngFor="let categories of MonitoringDetail?.Indicators; index as i" class="titleA">
+                    <ng-template ngbPanelContent class="contentA">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <ngb-accordion [closeOthers]="true">
+                                    <ngb-panel id="{{subcategories.SubCaegoryId}}" title="{{subcategories.SubCategoryName | uppercase}}" *ngFor="let subcategories of categories.SubCategories; index as j" class="titleA">
+                                        <ng-template ngbPanelContent class="contentA">
+                                            <div *ngFor="let subcatIndicator of subcategories.Indicators;index as sCat" style="margin-bottom: 1%;">
+
+                                                <div class="form-row">
+                                                    <div class="col-md-6">
+                                                        {{sCat + 1}} ) {{subcatIndicator.Question}}
+                                                    </div>
+                                                    <div class="col-md-2" *ngIf="subcatIndicator.OptionsType != 'Image' && subcatIndicator.OptionsType != 'Heading'">
+                                                        <label>Answer: &nbsp;</label>
+                                                        <span>{{subcatIndicator.Answer}}</span>
+                                                    </div>
+                                                    <div class="col-md-4" *ngIf="subcatIndicator.OptionsType == 'Textbox' && categories.CategoryName == 'Medicine' && userId == 1">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <input type="text" class="form-control" (input)='ChangeIndicatorAnswer($event,subcatIndicator.IndicatorId)'>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <button class="btn btn-primary btn-sm" style="margin-top: 2.5%;" (click)="SaveIndicatorAnswer(subcatIndicator.IndicatorId)">Update</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" *ngIf="subcatIndicator.OptionsType == 'Image'">
+                                                        <a [href]="sanitizeImageUrl(subcatIndicator.Answer)" target="_blank">
+                                                            <img [src]="sanitizeImageUrl(subcatIndicator.Answer)" height="50%" width="50%" />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <ng-container *ngTemplateOutlet="RecursionS; context:{ list: subcatIndicator.SubIndicators}">
+                                                </ng-container>
+                                                <ng-template #RecursionS let-list="list">
+                                                    <div *ngFor="let item of list;index as sCS" style="margin-bottom: 1%;margin-left: 2%;">
+                                                        <div *ngIf="(item.showInCase != null && subcatIndicator.AnswerId == item.showInCase) || item.showInCase == null">
+                                                            <div class="form-row">
+                                                                <div class="col-md-6">
+                                                                    {{sCS+1}} ) {{item.Question}}
+                                                                </div>
+                                                                <div class="col-md-2" *ngIf="item.OptionsType != 'Image' && item.OptionsType != 'Heading'">
+                                                                    <label>Answer: &nbsp;</label>
+                                                                    <span>{{item.Answer}}</span>
+                                                                </div>
+                                                                <div class="col-md-4" *ngIf="item.OptionsType == 'Textbox' && categories.CategoryName == 'Medicine' && userId == 1">
+                                                                    <div class="row">
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control" (input)='ChangeIndicatorAnswer($event,item.IndicatorId)'>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <button class="btn btn-primary btn-sm" style="margin-top: 2.5%;" (click)="SaveIndicatorAnswer(item.IndicatorId)">Update</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6" *ngIf="item.OptionsType == 'Image'">
+                                                                    <a [href]="sanitizeImageUrl(item.Answer)" target="_blank">
+                                                                        <img [src]="sanitizeImageUrl(item.Answer)" height="50%" width="50%" />
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div *ngIf="item.SubIndicators.length > 0">
+                                                                <ng-container *ngTemplateOutlet="RecursionS; context:{ list: item.SubIndicators }">
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+                                        </ng-template>
+                                    </ngb-panel>
+                                </ngb-accordion>
+                            </div>
+                        </div>
+                        <div *ngFor="let catIndicator of categories.Indicators; index as cI" style="margin-bottom: 1%;margin-top: 2%;">
+
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    {{cI + 1}} ) {{catIndicator.Question}}
+                                </div>
+                                <div class="col-md-2" *ngIf="catIndicator.OptionsType != 'Image' && catIndicator.OptionsType != 'Heading'">
+                                    <label>Answer: &nbsp;</label>
+                                    <span>{{catIndicator.Answer}}</span>
+                                </div>
+                                <div class="col-md-4" *ngIf="catIndicator.OptionsType == 'Textbox' && categories.CategoryName == 'Medicine' && userId == 1">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" (input)='ChangeIndicatorAnswer($event,catIndicator.IndicatorId)'>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary btn-sm" style="margin-top: 2.5%;" (click)="SaveIndicatorAnswer(catIndicator.IndicatorId)">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="catIndicator.OptionsType == 'Image'">
+                                    <a [href]="sanitizeImageUrl(catIndicator.Answer)" target="_blank">
+                                        <img [src]="sanitizeImageUrl(catIndicator.Answer)" height="50%" width="50%" />
+                                    </a>
+                                </div>
+                            </div>
+                            <ng-container *ngTemplateOutlet="Recursion; context:{ list: catIndicator.SubIndicators}">
+                            </ng-container>
+                            <ng-template #Recursion let-list="list">
+                                <div *ngFor="let item of list;index as cS" style="margin-bottom: 1%;margin-left: 2%;">
+                                    <div *ngIf="(item.showInCase != null && catIndicator.AnswerId == item.showInCase) || item.showInCase == null">
+                                        <div class="form-row">
+                                            <div class="col-md-6">
+                                                {{cS + 1}} ) {{item.Question}}
+                                            </div>
+                                            <div class="col-md-2" *ngIf="item.OptionsType != 'Image' && item.OptionsType != 'Heading'">
+                                                <label>Answer: &nbsp;</label>
+                                                <span>{{item.Answer}}</span>
+                                            </div>
+                                            <div class="col-md-4" *ngIf="item.OptionsType == 'Textbox' && categories.CategoryName == 'Medicine' && (userId == 1 || userId == 6)">
+
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <input type="text" class="form-control" (input)='ChangeIndicatorAnswer($event,item.IndicatorId)'>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <button class="btn btn-primary btn-sm" style="margin-top: 2.5%;" (click)="SaveIndicatorAnswer(item.IndicatorId)">Update</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="item.OptionsType == 'Image'">
+                                                <a [href]="sanitizeImageUrl(item.Answer)" target="_blank">
+                                                    <img [src]="sanitizeImageUrl(item.Answer)" height="50%" width="50%" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="item.SubIndicators.length > 0">
+                                            <ng-container *ngTemplateOutlet="Recursion; context:{ list: item.SubIndicators }">
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel id="Feedback" title="FeedBack" class="titleA" *ngIf="MonitoringDetail?.Comments != null && MonitoringDetail?.Comments.length > 0">
+                    <ng-template ngbPanelContent class="contentA">
+                        <div class="form-row" *ngFor="let feedback of MonitoringDetail.Comments">
+                            <div class="col-md-6" *ngIf="feedback.FacilityIncahrgeComments != '' && feedback.FacilityIncahrgeComments != null">
+                                <h5>Facility Incharge Comments</h5>
+                                <span>{{feedback.FacilityIncahrgeComments}}</span>
+                            </div>
+                            <div class="col-md-6" *ngIf="feedback.MEAComments != '' && feedback.MEAComments != null">
+                                <h5>MEA Comments</h5>
+                                <span>{{feedback.MEAComments}}</span>
+                            </div>
+                            <div class="form-row" *ngIf="feedback.monitoringAttachments.length > 0">
+                                <div class="col-md-6" *ngFor="let attachment of feedback.monitoringAttachments">
+                                    <h6>{{attachment.ImageName}}</h6>
+                                    <a [href]="sanitizeImageUrl(attachment.ImagePath)" target="_blank">
+                                        <img [src]="sanitizeImageUrl(attachment.ImagePath)" height="50%" width="50%" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+
+    </div>
+</div>

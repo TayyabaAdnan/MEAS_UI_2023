@@ -1,0 +1,627 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 1%;">
+        <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+            <div class="row" style="margin-bottom: 1%;">
+                <div class="col-md-12">
+                    <ngb-accordion [closeOthers]="true">
+                        <ngb-panel ngbPanelHeader id="filter" title="FILTERS" class="titleA" style="background-color: sandybrown;">
+                            <ng-template ngbPanelContent class="contentA">
+                                <div class="card" style="margin-top: 2%;">
+                                    <div class="job-search">
+                                        <div class="card-body">
+                                            <form class="form theme-form" [formGroup]="searchForm">
+                                                <div class="form-row">
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">
+                                                            Select Application
+                                                        </label>
+                                                        <div class="col-md-12 col-sm-12 form-group">
+                                                            
+<select class="form-control digits" name="applications" formControlName="applicationId" (change)="GetModules($event.target.value)">
+<option value="">Please Select...</option>
+<option *ngFor="let app of applications" [value]="app.applicationId">{{app.ApplicationTypeName}}</option>
+</select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Module</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="district" formControlName="moduleId" (change)="UpdateSearchObject($event.target.value,'module')">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let mod of Modules"
+                                                                    [value]="mod.ModuleId">
+                                                                    {{mod.ModuleName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group" *ngIf="HaveAccessTo('Division')">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Division</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="division" formControlName="divisionId" (change)="getDistrictByDivisionId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let d of divisions"
+                                                                    [value]="d.DivisionCode">
+                                                                    {{d.DivisionName}}</option>
+                                                            </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group" *ngIf="HaveAccessTo('District')">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            District</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="district" formControlName="districtId" (change)="getTehsilByDistrictId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let dis of districts"
+                                                                    [value]="dis.DistrictCode">
+                                                                    {{dis.DistrictName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Tehsil</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="Province" formControlName="tehsilId" (change)="getzoneByTehsilId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let t of tehsils"
+                                                                    [value]="t.TehsilCode">
+                                                                    {{t.TehsilName}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Zone</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="zone" formControlName="ZoneId" (change)="UpdateSearchObject($event.target.value,'Zone')">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let u of zones" [value]="u.ZoneId">
+                                                                    {{u.ZoneName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            HF
+                                                            Type</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="zone" formControlName="HfTypeId" (change)="UpdateSearchObject($event.target.value,'HfType')">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let u of hfTypes"
+                                                                    [value]="u.FacilityTypeId">
+                                                                    {{u.FaciltyTypeName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Shift</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="zone" formControlName="HfTypeId" (change)="UpdateSearchObject($event.target.value,'Shift')">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let u of selectedShifts"
+                                                                    [value]="u.ShiftId">
+                                                                    {{u.ShiftName}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">From
+                                                            Date</label>
+                                                        <div class="col-md-12">
+                                                            <input class="form-control digits" type="date" [ngModel]="date | date:'yyyy-MM-dd'" formControlName="fromDate" (input)='updateFromDate($event)'>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">To
+                                                            Date</label>
+                                                        <div class="col-md-12">
+                                                            <input class="form-control digits" type="date" [ngModel]="date | date:'yyyy-MM-dd'" formControlName="toDate" (input)='updateToDate($event)'>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mb-3 form-group">
+                                                        <div class="row">
+                                                            <div class="col-md-10">
+                                                                <a (click)="ExportAllListNew()" title="Export Table Data New" style="cursor: pointer;;margin-right: 2%;;margin-bottom: 1%" class="btn btn-primary padding-4 float-right" type="button"><i
+                                                                    class="fa fa-file-excel-o text-white fa-lg "></i>&nbsp;Download Module wise Data</a>
+                                                             <a (click)="ExportMonitoringAttendanceListNew()" *ngIf="filterObj.ModuleId == '1'" title="Export Monitoring Attendance List" style="cursor: pointer;;margin-right: 2%;margin-bottom: 1%;" class="btn btn-primary padding-4 float-right" type="button"><i
+                                                                                class="fa fa-file-excel-o text-white fa-lg "></i>&nbsp;Attendance</a>
+
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button class="btn btn-primary"
+                                                                (click)="SearchRecord()" type="button"><span><i
+                                                                        class="fa fa-check text-white"></i></span> Search
+                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mb-3 form-group">
+                                                        <span>
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    &nbsp;
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                   <!--  <a (click)="ExportData()" title="Export"
+                                                                        style="cursor: pointer;"
+                                                                        class="btn btn-primary padding-4 float-right"
+                                                                        type="button"><i
+                                                                            class="fa fa-file-excel-o text-white fa-lg "></i></a> -->
+                                                                </div>
+                                                              
+                                                                <div class="col-md-2">
+                                                                   
+                                                    </div>
+                                                </div>
+
+
+
+                                                </span>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                </div>
+            </div>
+            </ng-template>
+            </ngb-panel>
+            </ngb-accordion>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h5 style="font-size: medium;">Visit Data</h5>
+
+                      
+
+<a (click)="ExportList()" title="Export Table Data" style="cursor: pointer;;margin-right: 2%;;margin-bottom: 1%" class="btn btn-primary padding-4 float-right" type="button"><i
+class="fa fa-file-excel-o text-white fa-lg "></i>&nbsp;Export Table Data</a>
+<a (click)="Refresh()" title="Refresh" style="cursor: pointer;;margin-right: 2%;;margin-bottom: 1%" class="btn btn-primary padding-4 float-right" type="button"><i
+class="fa fa-refresh"></i>&nbsp;Refresh</a>
+                           <!--
+                                <a (click)="ExportCVCList()" title="Export CVC List" style="cursor: pointer;margin-right: 2%;" class="btn btn-primary padding-4 float-right" type="button"><i
+                                            class="fa fa-file-excel-o text-white fa-lg "></i></a>
+                                <a (click)="ExportMonitoringList()" title="Export Monitoring List" style="cursor: pointer;margin-right: 2%;" class="btn btn-primary padding-4 float-right" type="button"><i
+                                                class="fa fa-file-excel-o text-white fa-lg "></i></a> -->
+                        <!-- <div class="row">
+                                    <div class="col-md-7 pull-right"></div>
+                                    <div class="col-md-4 pull-right">
+                                        <select class="form-control" (change)="ChangeDDLValue($event.target.value)">
+                                            <option value="0">Please Select...</option>
+                                            <option value="1">Export Monitoring List</option>
+                                            <option value="2">Export Monitoring Attendance</option>
+                                            <option value="3">Export CVC List</option>
+                                            <option value="4">Export Table Data</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1 pull-left">
+                                        <a (click)="ExportData()" title="Export" style="cursor: pointer;margin-right: 2%;" class="btn btn-primary padding-4 float-right" type="button"><i
+                                            class="fa fa-file-excel-o text-white fa-lg "></i></a>
+                                    </div>
+                                </div> -->
+                    </div>
+                    <div class="card-body custom-datatable">
+                        <div class="form-row">
+                            <div class="col-md-1.5 form-group"><strong>Facility Status:</strong> </div>
+                            <div class="col-md-1 form-group">
+                                <input type="radio" id="rdo_open" name="rdo" class="k-radio" [value]="1" (change)="InputChanged(1)" checked>
+                                <label class="k-radio-label" for="rdo_open">Open</label>   
+                            </div>
+                            <div class="col-md-1 form-group">             
+                                     
+         
+                                       <input type="radio" id="rdo_close" name="rdo" class="k-radio" [value]="2" (change)="InputChanged(2)"  [ngModel]="this.radiovalue" ngDefaultControl>
+                                        <label class="k-radio-label" for="rdo_close" [ngModel]="this.radiovalue" ngDefaultControl>Close</label> 
+                                       <!--  <input type="radio" id="rdo_close" name="rdo" class="k-radio" [value]="2" (change)="InputChanged(2)">
+                                        <label class="k-radio-label" for="rdo_close">Close</label> -->
+                                    </div>
+                                     <div class="col-md-8 form-group">    
+                                        <input type='text' class="filter-ngx form-control" placeholder='Type to filter...' (keyup)='updateFilter($event)' style="float: right;" />
+                                 </div>
+                              </div>
+                        </div>
+                        <ngx-datatable class='bootstrap' [rows]='measEvalution' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [reorderable]="reorderable" [count]="filterObj.totalRecords" [limit]="filterObj.size" [offset]="filterObj.pageNumber"
+                            [externalPaging]="true" (page)="setPage($event)">
+                            <!-- <ngx-datatable-column name="Sr#">
+                                <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                    {{ (filterObj.pageNumber * filterObj.size) +(rowIndex + 1) }}
+                                </ng-template>
+                            </ngx-datatable-column> -->
+                            <!-- <ngx-datatable-column name="Division">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.DivisionName}}
+                                        </ng-template>
+                                    </ngx-datatable-column> -->
+                            <ngx-datatable-column name="District" [width]="100" style="font-weight: bold;"> 
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.DistrictName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <!-- <ngx-datatable-column name="Tehsil">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.TehsilName}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Zone">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.ZoneName}}
+                                        </ng-template>
+                                    </ngx-datatable-column> -->
+                            <ngx-datatable-column name="HF Name" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.HealthFacilityName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="HF Type" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.ModeName}} ( {{row.ShiftName}} )
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="HF Status" [width]="70" *ngIf="filterObj.ModuleId == '1' || filterObj.ModuleId == ''">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.FacilityStatus == false ?'Closed' : row.FacilityStatus == true ? 'Open' : ''}} <span *ngIf="row.FacilityStatus == false && row.CloseReason != null && row.CloseReason != ''"> ( {{row.CloseReason}} )</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- <ngx-datatable-column name="Shift">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.ShiftName}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Module">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.ModuleName}}
+                                        </ng-template>
+                                    </ngx-datatable-column> -->
+                            <ngx-datatable-column name="Reporter Name" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoredBy}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Visit Date">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate | date: 'yyyy-MM-dd hh:mm:ss a'}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Sync Date">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.SyncOn | date: 'yyyy-MM-dd hh:mm:ss a'}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Modules (Done)">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.modules}}
+                                </ng-template>
+
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Action" [width]="50">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <a type="button" (click)="onSelect(row)"><i
+                                                    class="fa fa-info-circle iconFont"></i></a>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="tblDetail">
+                <thead>
+                    <tr>
+                        <td>Sr No.</td>
+                        <td>Division</td>
+                        <td>District</td>
+                        <td>Tehsil</td>
+                        <td>Zone</td>
+                        <td>HF Type</td>
+                        <td>HF Name</td>
+                        <td>Shift</td>
+                        <td>Module</td>
+                        <td>HF Status</td>
+                        <td>Monitored By</td>
+                        <td>Visit Date</td>
+                        <td>Visit Time</td>
+                        <td>Submit Date</td>
+                        <td>Submit Time</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let module of measEvalutionAll;index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{module.DivisionName}}</td>
+                        <td>{{module.DistrictName}}</td>
+                        <td>{{module.TehsilName}}</td>
+                        <td>{{module.ZoneName}}</td>
+                        <td>{{module.ModeName}}</td>
+                        <td>{{module.HealthFacilityName}}</td>
+                        <td>{{module.ShiftName}}</td>
+                        <td>{{module.ModuleName}}</td>
+                        <td>{{module.FacilityStatus == false ?'Closed' : module.FacilityStatus == true ? 'Open' : ''}} <span *ngIf="module.FacilityStatus == false && module.CloseReason != null && module.CloseReason != ''"> ( {{module.CloseReason}} )</span></td>
+                        <td>{{module.MonitoredBy}}</td>
+                        <td t='s'>{{module.MonitoringDate | date: 'MMM dd,yyyy'}}</td>
+                        <td t='s'>{{module.MonitoringDate | date: 'h:mm:ss a'}}</td>
+                        <td t='s'>{{module.SyncOn | date: 'MMM dd,yyyy'}}</td>
+                        <td t='s'>{{module.SyncOn | date: 'h:mm:ss a'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="tblExportAll">
+                <thead>
+                    <tr>
+                        <td>Sr No.</td>
+                        <td>Division</td>
+                        <td>District</td>
+                        <td>Tehsil</td>
+                        <td>Zone</td>
+                        <td>Facility Type</td>
+                        <td>Visit Type</td>
+                        <td>Facility Code</td>
+                        <td>Facility Name</td>
+                        <td>Reporter Name</td>
+                        <td>Visit Date</td>
+                        <td>Visit Time</td>
+                        <td>Submission Date</td>
+                        <td>GPS Location</td>
+                        <td>Module</td>
+                        <td *ngFor="let q of questions">{{q.Question}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">Facility Incharge Comments</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">MEA Comments</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let module of measEvalutionAllDetail;index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{module.DivisionName}}</td>
+                        <td>{{module.DistrictName}}</td>
+                        <td>{{module.TehsilName}}</td>
+                        <td>{{module.ZoneName}}</td>
+                        <td>{{module.ModeName}}</td>
+                        <td>{{module.ShiftName}}</td>
+                        <!-- <td></td> -->
+                        <td t="s">{{module.HFMISCode}}</td>
+                        <td>{{module.HealthFacilityName}}</td>
+                        <td>{{module.MonitoredBy}}</td>
+                        <td t='s'>{{module.MonitoringDate | date: 'yyyy-MM-dd'}}</td>
+                        <td t='s'>{{module.MonitoringDate | date: 'h:mm:ss a'}}</td>
+                        <td t='s'>{{module.SubmissionDate | date: 'yyyy-MM-dd h:mm:ss a'}}</td>
+                        <td t='s'>{{module.Latitude}},{{module.Longitude}}</td>
+                        <td>{{module.ModuleName}}</td>
+                        <td *ngFor="let answers of module.Indicators" t="s">
+                            <span *ngIf="answers.OptionsType != 'Image'">
+                                        {{answers.Answer}}
+                                    </span>
+                            <span *ngIf="answers.OptionsType == 'Image'">&nbsp;</span>
+                        </td>
+                        <td *ngIf="filterObj.ModuleId == '1'">{{module.FacilityInchargeComment}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">{{module.MEAComment}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- printing this -->
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="tblExportAllNew">
+                <thead>
+                    <tr>
+                        <td>Sr No.</td>
+                        <td>Division</td>
+                        <td>District</td>
+                        <td>Tehsil</td>
+                        <td>Zone</td>
+                        <td>Facility Code</td>
+                        <td>DHIS Code</td>
+                        <td>Facility Name</td>
+                        <td>Ambulance</td>
+                        <td>Facility Type</td>
+                        <td>Reporter Name</td>
+                        <!-- <td>VisitDateasdatetime</td>
+                        <td>SyncDateasdatetime</td> -->
+                        <td>Visit Date</td>
+                        <td>Visit Time</td>
+                        <td>Submission Date</td>
+                        <td>Submission Time</td>
+                        <td>GPS Location</td>
+                        <td>Module</td>
+                        <td>Shift</td>
+                        <td>Facility Status</td>
+                        <td>Reason (If Closed)</td>
+                        <td>Facility Incharge Name</td>
+                        <td>Facility Incharge Designation</td>
+                        <td>Facility Incharge Mobile No.</td>
+                        <td>Building Under illegal Occupation</td>
+                        <td>Building Under illegal Occupation (Since Date)</td>
+                        <td>Facility Incharge Comments</td>
+                        <td>MEA Comments</td>
+                        <td *ngFor="let q of questions">{{q}}</td>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let module of measEvalutionAllNew;index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{module.DivisionName}}</td>
+                        <td>{{module.DistrictName}}</td>
+                        <td>{{module.TehsilName}}</td>
+                        <td>{{module.Zone}}</td>
+                        <td>{{module.HfmisCode}}</td>
+                        <td>{{module.DHIS_FacilityCode}}</td>
+                        <td>{{module.HealthFacilityName}}</td>
+                        <td>{{module.AmbulanceNo}}</td>
+                        <td>{{module.ModeName}}</td>
+                        <td>{{module.MonitoredBy}}</td>   
+                       <!--  <td>{{module.CreatedOndatetime | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{module.SyncOndatetime | date: 'yyyy-MM-dd'}}</td>            
+                        <td>{{module.HealthFacilityName}}</td>
+                        <td>{{module.MonitoredBy}}</td> -->
+                        <td>{{module.MonitoredOn | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{module.VisitTime | date: 'h:mm:ss a'}}</td>
+                        <td>{{module.SyncDate | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{module.SubmissionTime | date: 'h:mm:ss a'}}</td>
+                      
+                        <td>{{module.GPS}}</td> 
+                        <td>{{module.ModuleName}}</td>
+                        <td>{{module.ShiftName}}</td>
+                        <td>{{module.FacilityStatus}}</td>
+                        <td>{{module.CloseReason}}</td>
+                        <td>{{module.InchargeName}}</td>
+                        <td>{{module.InchargeDesignation}}</td>
+                        <td>{{module.InchargeMobileNo}}</td>
+                        <td>{{module.IllegalOccupation}}</td>
+                        <td>{{module.LegalSince}}</td>
+                        <td>{{module.FacilityInchargeComment}}</td>
+                        <td>{{module.MEAComment}}</td>
+                        <td *ngFor="let answers of module.Answers">
+                            {{answers}}
+                        </td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="tblExportAllMonitoring">
+                <thead>
+                    <tr>
+                        <td>Sr No.</td>
+                        <td>Division</td>
+                        <td>District</td>
+                        <td>Tehsil</td>
+                        <td>Zone</td>
+                        <td>Facility Code</td>
+                        <td>Facility Name</td>
+                        <td>Facility Type</td>
+                        <td>Visit Type</td>
+                        <td>Reporter Name</td>
+                        <td>Visit Date</td>
+                        <td>Visit Time</td>
+                        <td>Submission Date</td>
+                        <td>Submission Time</td>
+                        <td>GPS Location</td>
+                        <!-- <td>Module</td> -->
+                        <td *ngIf="filterObj.ModuleId == '1'">Facility Status</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">Reason (If Closed)</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">Facility Incharge Designation</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">Facility Incharge Name</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">Facility Incharge CNIC</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">Facility Incharge Mobile No.</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue != 2">Building Under illegal Occupation
+                        </td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue != 2">Building Under illegal Occupation (If Yes)</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue != 2">Building Under illegal Occupation (Since Date)
+                        </td>
+                        <td *ngFor="let q of questions">{{q}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2">Name</td>
+                       <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2">Attendence CNIC</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2">Attendance Mobile No.</td> 
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2">Designation
+                        </td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2">Status
+                        </td>
+                        <td *ngIf="filterObj.ModuleId == '1'">MEA Comments</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">Facility Incharge Comments</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let module of measEvalutionAllDetail;index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{module.DivisionName}}</td>
+                        <td>{{module.DistrictName}}</td>
+                        <td>{{module.TehsilName}}</td>
+                        <td>{{module.ZoneName}}</td>
+                        <td t="s">{{module.HFMISCode}}</td>
+                        <td>{{module.HealthFacilityName}}</td>
+                        <td>{{module.ModeName}}</td>
+                        <td>{{module.ShiftName}}</td>
+                        <td>{{module.MonitoredBy}}</td>
+                        <td t='s'>{{module.MonitoredOn}}</td>
+                        <td t='s'>{{module.MonitoriedTime}}</td>
+                        <td t='s'>{{module.SyncOn}}</td>
+                        <td t='s'>{{module.SyncTime}}</td>
+                        <td t='s'>{{module.GPS}}</td>
+                        <td>{{module.ModuleName}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">{{module.FacilityStatus}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">{{module.CloseReason}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'" t='s'>{{module.InchargeDesignation}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">{{module.InchargeName}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'" t='s'>{{module.InchargeCNIC}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'" t='s'>{{module.InchargeMobileNo}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue != 2" t='s'>
+                            {{module.IllegalOccupation == true?'Yes':'No'}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue != 2" t='s'>
+                            {{module.WholeOrPart}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue != 2" t='s'>
+                            {{module.LegalSince}}</td>
+                        <td *ngFor="let answers of module.Answers" t="s">
+                            {{answers}}
+                        </td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2" t='s'>
+                            {{module.AttandenceName}}</td>
+     <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2" t='s'>
+                            {{module.AttendanceCNIC}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2" t='s'>
+                            {{module.AttendanceContactNo}}</td> 
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2" t='s'>
+                            {{module.AttendanceDesignation}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1' && exportTypeValue == 2" t='s'>
+                            {{module.TypeOfAbsense}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">{{module.MEAComment}}</td>
+                        <td *ngIf="filterObj.ModuleId == '1'">{{module.FacilityInchargeComment}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row" style="display: none;">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table" id="tblExportAllQ">
+                        <thead>
+                            <tr>
+                                <td>Indicator Id</td>
+                                <td>Question</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let q of questions">
+                                <td>{{q.IndicatorId}}</td>
+                                <td>{{q.Question}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> -->

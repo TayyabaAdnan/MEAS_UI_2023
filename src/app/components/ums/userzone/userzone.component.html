@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-xl-12">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h6>Upload</h6>
+                    </div>
+                    <div class="card-body" [Loader]="loaderService.isLoading | async">
+                        <div class="form-row">
+                            <div class="col-md-4">&nbsp;</div>
+                            <div class="col-md-4">
+                                <input type="file" class="form-control" accept=".xlsx,.xls"
+                                    (change)="incomingfile($event)">
+                            </div>
+                            <div class="col-md-4">&nbsp;</div>
+                        </div>
+                        <div class="form-group" style="text-align: right;">
+                            <button class="btn btn-primary" (click)="Upload()">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

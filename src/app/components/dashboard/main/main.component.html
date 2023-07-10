@@ -1,0 +1,180 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 1%;">
+        <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h5>MEAs Evaluations
+                            <button type="button" *ngIf="user.UserId == 1" class="btn btn-primary btn-sm mb-3 ml-2 mb-sm-0 float-right" (click)="GenerateVisits()"><i class="uil-plus"></i>Generate Visits</button>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 1%;">
+        <div class="col-md-12">
+            <ngb-accordion [closeOthers]="true">
+                <ngb-panel ngbPanelHeader id="filter" title="FILTERS" class="titleA" style="background-color: sandybrown;">
+                    <ng-template ngbPanelContent class="contentA">
+                        <div class="card" style="margin-top: 2%;">
+                            <div class="job-search">
+                                <div class="card-body">
+                                    <form [formGroup]="searchForm">
+                                        <div class="form-row">
+                                            <div class="col-md-2 mb-3 form-group">
+                                                <select class="form-control digits" formControlName="DistrictCode">
+                                                    <option value="0">Punjab</option>
+                                                    <option *ngFor="let a of DistrictList" [value]="a.DistrictCode">
+                                                        {{a.DistrictName}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 mb-3 form-group">
+                                                <select (change)="GetHfShifts($event.target.value)" class="form-control digits" formControlName="HfType">
+                                                    <option *ngFor="let a of HfTypeList" [value]="a.HfTypeId">
+                                                        {{a.FaciltyTypeName}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 mb-3 form-group">
+                                                <select class="form-control digits" formControlName="ShiftId">
+                                                    <option *ngFor="let m of selectedHfShifts" [value]="m.ShiftId">
+                                                        {{m.ShiftName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 mb-3 form-group">
+                                                <select class="form-control digits" name="month" formControlName="month">
+                                                    <option value="">Please Select...</option>
+                                                    <option value="1">January</option>
+                                                    <option value="2">February</option>
+                                                    <option value="3">March</option>
+                                                    <option value="4">April</option>
+                                                    <option value="5">May</option>
+                                                    <option value="6">June</option>
+                                                    <option value="7">July</option>
+                                                    <option value="8">August</option>
+                                                    <option value="9">September</option>
+                                                    <option value="10">October</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 mb-3 form-group">
+                                                <select class="form-control digits" name="year" formControlName="year">
+                                                    <option value="">Please Select...</option>
+                                                    <option *ngFor="let d of yearsList" [value]="d">{{d}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12" style="float: right;">
+                                                    <button class="btn btn-primary" (click)="search()">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+            <div class="card">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h5 style="font-size: medium;">MEAs Compliance</h5>
+                    </div>
+                    <div class="card-body custom-datatable">
+                        <div class="form-row">
+                            <div class="col-xl-12">
+                                <input type='text' class="filter-ngx form-control" placeholder='Type to filter...' (keyup)='updateFilter($event)' style="float: right;" /></div>
+                        </div>
+                        <ngx-datatable class="bootstrap" [rows]='measComplianceCoverageFilter' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="40" [limit]="10" [sorts]="[{prop: 'name', dir: 'desc'}]">
+                            <ngx-datatable-column name="Sr#" [width]="10">
+                                <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                    {{ (filterObj.pageNumber * filterObj.size) +(rowIndex + 1) }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Name" [width]="100" prop="FullName">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.FullName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="District" [width]="100" prop="DistrictName">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.DistrictName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Zone" [width]="100" prop="ZoneName">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.ZoneName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Compliance({{compliancePercent}})" [width]="100" prop="Compliance">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.Compliance | number: '1.2-2'}}%
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Days Worked" [width]="70" prop="DaysWorked">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.DaysWorked}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Coverage(100%)" prop="Coverage">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.Coverage | number: '1.2-2'}}%
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Action" [width]="50">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <a type="button" (click)="onSelect(row)"><i
+                                                    class="fa fa-info-circle iconFont"></i></a>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="tblUserVisits">
+                <thead>
+                    <tr>
+                        <td>Sr. No</td>
+                        <td t="s">Name</td>
+                        <td t="s">Contact #</td>
+                        <td t="s">Zone</td>
+                        <td t="s">Health Facility Name</td>
+                        <td>HF Type</td>
+                        <td>Shift</td>
+                        <td>Visited</td>
+                        <td>Repeat Visit</td>
+                        <td t="s">Special Visit</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let visit of usersVisits;index as i">
+                        <td>{{i + 1}}</td>
+                        <td t="s">{{visit?.FullName}}</td>
+                        <td t="s">{{visit?.ContactNo}}</td>
+                        <td t="s">{{visit?.ZoneName}}</td>
+                        <td t="s">{{visit?.HealthFacilityName}}</td>
+                        <td t="s">{{visit?.ModeName}}</td>
+                        <td>{{visit?.ShiftName}}</td>
+                        <td>{{visit?.IsVisited == true ?'Yes':'No'}}</td>
+                        <td>{{visit?.IsRepeat == true ?'Yes':'No'}}</td>
+                        <td>{{visit?.IsSpecial == true ?'Yes':'No'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 1%;">
+        <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h5>Zones
+                            <button type="button" *ngIf="user.UserId == 1 || user.UserId == 6 || user.UserId == 184" class="btn btn-primary btn-sm mb-3 ml-2 mb-sm-0 float-right" (click)="GetCurrentMonthVisits()"><i
+                  class="uil-plus"></i>Get Visits</button>
+                            <button type="button" class="btn btn-primary btn-sm mb-3 ml-2 mb-sm-0 float-right" (click)="createZone()"><i class="uil-plus"></i>Create</button>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="job-search">
+                            <div class="card-body custom-datatable">
+                                <div class="form-row">
+                                    <div class="col-xl-12">
+                                        <input type='text' class="filter-ngx form-control" placeholder='Type to filter...' (keyup)='updateFilter($event)' style="float: right;" /></div>
+                                </div>
+                                <ngx-datatable class='bootstrap' [rows]='zoneList' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [reorderable]="reorderable" [count]="filterObj.totalRecords" [limit]="filterObj.size" [offset]="filterObj.pageNumber"
+                                    [externalPaging]="true" (page)="setPage($event)">
+                                    <ngx-datatable-column name="Sr#">
+                                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                            {{ (filterObj.pageNumber * filterObj.size) +(rowIndex + 1) }}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Application">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.ApplicationTypeName}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Divison">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.DivisionName}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="District">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.DistrictName}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Tehsil">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.TehsilName}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Zone">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            {{row.ZoneName}}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Action">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <a type="button" (click)="onSelect(row)"><i class="fa fa-pencil-square-o iconFont"></i></a>
+                                            <a type="button" *ngIf="row.IsActive == false" (click)="ToggleActivationZone(row)"><i
+                          class="fa fa-ban iconFont" style="color: red;"></i></a>
+                                            <a type="button" *ngIf="row.IsActive != false" (click)="ToggleActivationZone(row)"><i
+                          class="fa fa-check-square-o iconFont" style="color: green;"></i></a>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="tblUserVisits">
+                <thead>
+                    <tr>
+                        <td>Sr. No</td>
+                        <td t="s">Name</td>
+                        <td t="s">Contact #</td>
+                        <td t="s">Zone</td>
+                        <td t="s">Health Facility Name</td>
+                        <td>HF Type</td>
+                        <td>Shift</td>
+                        <td>Visited</td>
+                        <td>Repeat Visit</td>
+                        <td t="s">Special Visit</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let visit of usersVisits;index as i">
+                        <td>{{i + 1}}</td>
+                        <td t="s">{{visit.FullName}}</td>
+                        <td t="s">{{visit.ContactNo}}</td>
+                        <td t="s">{{visit.ZoneName}}</td>
+                        <td t="s">{{visit.HealthFacilityName}}</td>
+                        <td t="s">{{visit.ModeName}}</td>
+                        <td>{{visit.ShiftName}}</td>
+                        <td>{{visit.IsVisited == true ?'Yes':'No'}}</td>
+                        <td>{{visit.IsRepeat == true ?'Yes':'No'}}</td>
+                        <td>{{visit.IsSpecial == true ?'Yes':'No'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

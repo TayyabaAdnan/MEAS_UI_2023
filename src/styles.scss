@@ -1,0 +1,38 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules//font-awesome/scss/font-awesome.scss";
+.iconFont {
+    font-size: 30px !important;
+    color: #08319b;
+}
+
+.center {
+    margin: auto;
+    margin-left: 680px;
+}
+
+.loder-icon {
+    position: absolute;
+    font-size: 54px !important;
+    color: #08319b;
+    left: 50%;
+    top: 50%;
+    margin-top: -20px;
+    margin-left: -20px;
+}
+
+.ng-scrollbar-view {
+    overflow-y: scroll !important;
+}
+
+.positionReletive {
+    width: 100%;
+    position: relative;
+}
+
+.divshow {
+    display: block;
+}
+
+.divhide {
+    display: none;
+}

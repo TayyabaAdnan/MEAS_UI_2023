@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 1%;">
+      <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+        <div class="card" style="margin-top: 2%;">
+          <div class="job-search">
+            <div class="card-header">
+              <h5>Category
+                    <button type="button" class="btn btn-primary btn-sm mb-3 ml-2 mb-sm-0 float-right"
+                      (click)="createCategory()"><i class="uil-plus"></i>Create</button>
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="card">
+              <div class="job-search">
+                <div class="card-body custom-datatable">
+                  <div class="form-row">
+                    <div class="col-xl-12">
+                      <input type='text' class="filter-ngx form-control" placeholder='Type to filter...'
+                        (keyup)='updateFilter($event)' style="float: right;" /></div>
+                  </div>
+                  <ngx-datatable class='bootstrap' [rows]='categorylist' [columnMode]="'force'"
+                    [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'"
+                    [reorderable]="reorderable" [count]="filterObj.totalRecords"
+                    [limit]="filterObj.size" [offset]="filterObj.pageNumber"
+                    [externalPaging]="true" (page)="setPage($event)">
+                    <ngx-datatable-column name="Sr#">
+                      <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        {{ (filterObj.pageNumber  * filterObj.size) +(rowIndex + 1) }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Category">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.CategoryName}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Application Type">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.ApplicationTypeName}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Module">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.ModuleName}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Action">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <a type="button" (click)="onSelect(row)"><i class="fa fa-pencil-square-o iconFont"></i></a>
+                        <a type="button" *ngIf="row.IsActive == false" (click)="ToggleActivationCategory(row)"><i
+                            class="fa fa-ban iconFont" style="color: red;"></i></a>
+                        <a type="button" *ngIf="row.IsActive != false" (click)="ToggleActivationCategory(row)"><i
+                            class="fa fa-check-square-o iconFont" style="color: green;"></i></a>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

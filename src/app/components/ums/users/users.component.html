@@ -1,0 +1,183 @@
+<div class="container-fluid">
+  <div class="row" style="margin-top: 50px;">
+    <div class="col-xl-12">
+      <div class="card" style="margin-top: 2%;">
+        <div class="job-search">
+          <div class="card-header">
+            <h6>{{UserMode}}</h6>
+          </div>
+          <div class="card-body" [Loader]="loaderService.isLoading | async">
+            <form [formGroup]="registerForm" >
+              <div class="form-row">
+                <div class="col-md-6 mb-3 form-group">
+                  <label class="col-form-label" for="txtFullName">Full Name</label>
+                  <input class="form-control" id="txtFullName" type="text" name="txtFullName" 
+                  formControlName="FullName"
+                    placeholder="Full Name" autocomplete="off">
+                  <div
+                    *ngIf="(registerForm.controls.FullName.touched || submit) 
+                    && registerForm.controls.FullName.errors?.required"
+                    class="text text-danger mt-1">
+                    Full Name is required
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3 form-group">
+                  <label class="col-form-label" for="phone-number">Contact #</label>
+                  <input class="form-control" id="phone-number" type="text" name="phone-number"
+                    formControlName="ContactNo" placeholder="Contact #" autocomplete="off" maxlength="12" minlength="11"
+                    placeholder="Contact #" autocomplete="off" appPhoneMask>
+                  <div 
+                  *ngIf="(registerForm.controls.ContactNo.touched || submit) 
+                  && (registerForm.controls.ContactNo.errors?.required )" class="text text-danger mt-1">
+                    Contact # is required & must have 11 digits
+                  </div>
+                  <div *ngIf="(registerForm.controls.ContactNo.touched || submit) 
+                  && (registerForm.controls.ContactNo.errors?.pattern 
+                  || registerForm.controls.ContactNo.errors?.maxlength 
+                  || registerForm.controls.ContactNo.errors?.minlength)" 
+                  class="text text-danger mt-1">Contact no Must Have 12 digits</div>
+                </div>
+              <!-- </div>
+              <div class="form-row"> -->
+                <div class="col-md-6 mb-3 form-group">
+                  <label class="col-form-label" for="txtUserName">User Name</label>
+                  <input class="form-control" id="txtUserName" type="text" name="txtUserName" 
+                  formControlName="Username"
+                    placeholder="User Name" autocomplete="off">
+                  <div
+                    *ngIf="(registerForm.controls.Username.touched || submit) 
+                    && registerForm.controls.Username.errors?.required"
+                    class="text text-danger mt-1">
+                    User Name is required
+                  </div>
+                </div>
+                <!-- <div class="col-md-6 mb-3 form-group">
+                  <label class="col-form-label" for="txtPassword">Password</label>
+                  <input class="form-control" id="txtPassword" type="password" name="txtPassword"
+                    formControlName="Password" placeholder="Password" autocomplete="off">
+                  <div
+                    *ngIf="(registerForm.controls.Password.touched || submit) && registerForm.controls.Password.errors?.required"
+                    class="text text-danger mt-1">
+                    Password is required</div>
+                </div> -->
+              <!-- </div>
+              <div class="form-row"> -->
+                <div class="col-md-6 mb-3 form-group">
+                  <label class="col-form-label" for="txtCNIC">CNIC</label>
+                  <input class="form-control" id="txtCNIC" type="text" name="txtCNIC" formControlName="CNIC"
+                    placeholder="CNIC" autocomplete="off" maxlength="15" minlength="15">
+                  <div
+                    *ngIf="(registerForm.controls.CNIC.touched || submit) && (registerForm.controls.CNIC.errors?.required)"
+                    class="text text-danger mt-1">
+                    CNIC is required & must have 15 digits</div>
+                    <div *ngIf="(registerForm.controls.CNIC.touched || submit) 
+                    && (registerForm.controls.CNIC.errors?.pattern 
+                    || registerForm.controls.CNIC.errors?.maxlength 
+                    || registerForm.controls.CNIC.errors?.minlength)" class="text text-danger mt-1">CNIC Must Have 15 Digits</div>
+                </div>
+                <!-- </div>
+          <div class="form-row"> -->
+            <div class="col-md-6 mb-3 form-group">
+              <label class="col-form-label" for="txtEmail">Email</label>
+              <input class="form-control" id="txtEmail" type="email" name="txtEmail" formControlName="Email"
+                placeholder="Email" autocomplete="off">
+              <div
+                *ngIf="(registerForm.controls.Email.touched || submit) 
+                && (registerForm.controls.Email.errors?.required)"
+                class="text text-danger mt-1">
+                Email is Required</div>
+                <div *ngIf="(registerForm.controls.Email.touched || submit) 
+                && (registerForm.controls.Email.errors?.email || registerForm.controls.Email.errors?.pattern)" class="text text-danger mt-1">Email must be a valid email address</div>
+            </div>
+          <!-- </div>
+          <div class="form-row"> -->
+            <div class="col-md-6 mb-3 form-group">
+              <label class="col-form-label" for="ddlRole">Role</label>
+              <select class="form-control digits"
+               formControlName="RoleId">
+                <option value="">Please Select...</option>
+                <option *ngFor="let r of roles" [value]="r.RoleID">{{r.RoleName}}</option>
+              </select>
+              <div *ngIf="submit && registerForm.controls.RoleId.errors?.required" class="text text-danger mt-1">
+                Role is required</div>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+              <label class="col-form-label" for="ddlRegion">Region</label>
+              <select class="form-control digits"
+               formControlName="RegionId">
+                <option value="">Please Select...</option>
+                <option *ngFor="let r of regions" [value]="r.RegionId">{{r.RegionName}}</option>
+              </select>
+              <div *ngIf="submit && registerForm.controls.RegionId.errors?.required" class="text text-danger mt-1">
+                Region is required</div>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+              <label class="col-form-label" for="ddlUserType">User Type</label>
+              <select class="form-control digits"
+               formControlName="UserTypeId">
+                <option value="">Please Select...</option>
+                <option *ngFor="let r of userTypes" [value]="r.UserTypeID">{{r.UserTypeName}}</option>
+              </select>
+              <div *ngIf="submit && registerForm.controls.UserTypeId.errors?.required" class="text text-danger mt-1">
+                Region is required</div>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+              <label class="col-form-label" for="DivsionId">Division</label>
+              <select class="form-control digits" id="DivsionId" name="DivsionId" formControlName="DivsionId"
+                (change)="GetDDTU($event.target.value,'District')">
+                <option value="">Please Select...</option>
+                <option *ngFor="let d of divisions" [value]="d.DivisionCode">{{d.DivisionName}}</option>
+              </select>
+              <div *ngIf="submit && registerForm.controls.DivsionId.errors?.required" class="text text-danger mt-1">
+                Division is Required</div>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+              <label class="col-form-label" for="DistrictId">District</label>
+              <select class="form-control digits" id="DistrictId" name="DistrictId" formControlName="DistrictId"
+                (change)="GetDDTU($event.target.value,'Tehsil')" >
+                <!-- [attr.disabled]="(disableDropDown != '' && disableDropDown != 'ProvisionalUser' && disableDropDown != 'FedralUser' && disableDropDown != 'DivisionalUser' && disableDropDown != 'SuperAdmin')?'':null " -->
+                <option value="">Please Select...</option>
+                <option *ngFor="let dis of districts" [value]="dis.DistrictCode">{{dis.DistrictName}}</option>
+              </select>
+              <div *ngIf="submit && registerForm.controls.DistrictId.errors?.required" class="text text-danger mt-1">
+                District is Required</div>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+              <!-- *ngIf="optionValue != '' && optionValue != 'DivisionalUser' && optionValue != 'ProvisionalUser' && optionValue != 'FedralUser' && optionValue != 'DistrictUser' && optionValue != 'SC'" -->
+              <label class="col-form-label" for="tehsilId">Tehsil</label>
+              <select class="form-control digits" id="TehsilId" name="TehsilId" formControlName="TehsilId"
+                (change)="GetDDTU($event.target.value,'Zone')">
+                <!--  [attr.disabled]="(disableDropDown != '' && disableDropDown != 'ProvisionalUser' && disableDropDown != 'FedralUser' && disableDropDown != 'DivisionalUser' && disableDropDown != 'SuperAdmin' && disableDropDown != 'DistrictUser' && disableDropDown != 'SC')?'':null " -->
+                <option value="">Please Select...</option>
+                <option *ngFor="let dis of tehsils" [value]="dis.TehsilCode">{{dis.TehsilName}}</option>
+              </select>
+              <div *ngIf="submit && registerForm.controls.TehsilId.errors?.required" class="text text-danger mt-1">
+                Tehsil is Required</div>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+              <label class="col-form-label" for="ZoneId">Zone</label>
+              <select class="form-control digits" id="ZoneId" name="ZoneId" formControlName="ZoneId">
+                <!--  [attr.disabled]="(disableDropDown != '' && disableDropDown != 'ProvisionalUser' && disableDropDown != 'FedralUser'  && disableDropDown != 'SuperAdmin' && disableDropDown != 'DivisionalUser' && disableDropDown != 'DistrictUser' && disableDropDown != 'tehsilUser' && disableDropDown != 'SC')?'':null " -->
+                <option value="">Please Select...</option>
+                <option *ngFor="let uc of zones" [value]="uc.ZoneId">{{uc.ZoneName}}</option>
+              </select>
+              <div *ngIf="submit && registerForm.controls.ZoneId.errors?.required" class="text text-danger mt-1">Zone is Required</div>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+              <label class="d-block" for="IsActive" style="margin-top:7%;">
+                <input class="checkbox_animated" id="IsActive" name="IsActive" type="checkbox" checked=""
+                  formControlName="IsActive">Active
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" [class.loader--text]="_useService.showLoader"
+              (click)="save()">Register</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

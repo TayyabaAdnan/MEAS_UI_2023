@@ -1,0 +1,428 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 1%;">
+        <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h5>Indicator Details</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="job-search">
+                            <div class="card-body">
+                                <form [formGroup]="searchForm">
+                                    <div class="form-row">
+                                        <div class="col-md-2 mb-3 form-group">
+                                            <select class="form-control digits" formControlName="DistrictCode">
+                                                <option value="0">Punjab</option>
+                                                <option *ngFor="let a of DistrictList" [value]="a.DistrictCode">
+                                                    {{a.DistrictName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1 mb-3 form-group">
+                                            <select class="form-control digits" formControlName="Designation">
+                                                <option value="MEA">MEA</option>
+                                                <option value="PMO">PMO</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1 mb-3 form-group">
+                                            <select (change)="GetHfShifts($event.target.value)" class="form-control digits" formControlName="HfType">
+                                                <option *ngFor="let a of HfTypeList" [value]="a.HfTypeId">
+                                                    {{a.FaciltyTypeName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mb-3 form-group">
+                                            <select class="form-control digits" formControlName="ShiftId">
+                                                <option *ngFor="let m of selectedHfShifts" [value]="m.ShiftId">
+                                                    {{m.ShiftName}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 mb-3 form-group">
+                                            <select class="form-control digits" formControlName="IndicatorType" (change)="GetGraphTypeDropDownVisible($event.target.value)">
+                                                <option value="MOPosted">MO Posted</option>
+                                                <option value="MOPresence">MO Presence</option>
+                                                <option value="Medicines">Medicines</option>
+                                                <option value="Utilities">Utilities</option>
+                                                <option value="Supplies">Supplies</option>
+                                                <option value="OtherStaffPosted">Other Staff Posted</option>
+                                                <option value="OtherStaffPresence">Other Staff Presence</option>
+                                                <option value="Equipment">Equipment</option>
+                                            </select>
+                                        </div>
+                                        <!-- <div class="col-md-2 mb-3 form-group"
+                                            *ngIf="indicatorTypeValue =='Supplies' || indicatorTypeValue == 'Medicines' || indicatorTypeValue == 'Equipment'">
+                                            <select class="form-control digits" formControlName="GraphType">
+                                                <option value="All">
+                                                    All
+                                                </option>
+                                                <option value="Essential">
+                                                    Essential
+                                                </option>
+                                            </select>
+                                        </div> -->
+                                        <div class="col-md-2 mb-3 form-group">
+                                            <input class="form-control digits" type="date" [ngModel]="Fromdate" formControlName="fromDate">
+                                        </div>
+                                        <div class="col-md-2 mb-3 form-group">
+                                            <input class="form-control digits" type="date" [ngModel]="Todate" formControlName="toDate">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12" style="float: right;">
+                                                <button class="btn btn-primary" (click)="search()">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row" style="margin-top: 2%;">
+                                    <div class="col-md-12">
+                                        <div class="row" *ngIf="indicatorType =='MOPosted'">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12" style="margin-left: 22%;
+                                                padding-top: 5%;background-color: rgb(124, 181, 236);">
+                                                    <h3>
+                                                        {{districtName}} : <span>
+                                                            {{MoPostedAverage | number:'1.0-2'}}%
+                                                        </span>
+                                                    </h3>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div #charts style="height: 1000px;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="indicatorType == 'MOPresence'">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12" style="margin-left: 22%;
+                                            padding-top: 5%;background-color: rgb(124, 181, 236);">
+                                                    <h3>
+                                                        {{districtName}} : <span>
+                                                            {{MoPresenceAverage | number:'1.0-2'}}%
+                                                        </span>
+                                                    </h3>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div #moPresence style="height: 1000px;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="indicatorType =='Utilities'">
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <!--  d-flex align-items-center justify-content-center h-100 -->
+                                                    <div class="card-header" style="background-color: #404144;color: white;">
+                                                        Utilities Average
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-5 col-sm-5 col-md-5" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{UtilitiesAllAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div #utilitiesAverage style="height: 1000px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <div class="card-header" style="background-color: #404144;color: white;">
+                                                        Electricity
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-5 col-sm-5 col-md-5" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{ElectricityAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div #electricitycharts style="height: 1000px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <div class="card-header" style="background-color: #404144;color: white;">
+                                                        Water Supply System
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-5 col-sm-5 col-md-5" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{WaterSupplyAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div #waterSupplycharts style="height: 1000px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <!--  d-flex align-items-center justify-content-center h-100 -->
+                                                    <div class="card-header" style="background-color: #404144;color: white;">
+                                                        Swerage System
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-5 col-sm-5 col-md-5" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{SwerageAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div #sweragecharts style="height: 1000px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="indicatorType =='OtherStaffPosted'">
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <div class="card-header" style="background-color: #404144;color: white;height: 48px;">
+                                                        LHV Posted
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-4 col-sm-4 col-md-4" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{LHVPostedAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+
+                                                            </div>
+                                                        </div>
+                                                        <div #lhvPosted style="height: 1000px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <div class="card-header" style="background-color: #404144;color: white;height: 48px;">
+                                                        Dispenser Posted
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-4 col-sm-4 col-md-4" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{DispenserPostedAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+
+                                                            </div>
+                                                        </div>
+                                                        <div #dispenserPosted style="height: 1000px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="indicatorType =='OtherStaffPresence'">
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <div class="card-header" style="background-color: #404144;color: white;height: 48px;">
+                                                        Other Staff Presence
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-5 col-sm-5 col-md-5" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{otherStaffPresenceAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div #otherStaffPresence style="height: 1000px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <div class="card-header" style="background-color: #404144;color: white;height: 48px;">
+                                                        LHV
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-5 col-sm-5 col-md-5" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{lhvPresenceAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div #lhvPresence style="height: 1000px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <div class="card-header" style="background-color: #404144;color: white;height: 48px;">
+                                                        Dispenser
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-5 col-sm-5 col-md-5" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{dispenserPresenceAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div #dispenserPresence style="height: 1000px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border" style="border: #404144;">
+                                                    <div class="card-header" style="background-color: #404144;color: white;height: 48px;">
+                                                        HT/MT
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-xs-5 col-sm-5 col-md-5" style="padding-top: 3%;background-color: rgb(124, 181, 236);text-align: center;">
+                                                                <h5>
+                                                                    {{districtName}} : <span>
+                                                                        {{htMtPresenceAverage | number:'1.0-2'}}%
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div #htmtPresence style="height: 1000px;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="indicatorType =='Supplies'">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12" style="margin-left: 22%;
+                                            padding-top: 5%;background-color: rgb(124, 181, 236);">
+                                                    <h3>
+                                                        {{districtName}} : <span>
+                                                            {{suppliesAverage | number:'1.0-2'}}%
+                                                        </span>
+                                                    </h3>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div #supplies style="height: 1000px;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="indicatorType =='Medicines'">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12" style="margin-left: 22%;
+                                            padding-top: 5%;background-color: rgb(124, 181, 236);">
+                                                    <h3>
+                                                        {{districtName}} : <span>
+                                                            {{MedicinesAverage | number:'1.0-2'}}%
+                                                        </span>
+                                                    </h3>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div #medicines style="height: 1000px;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="indicatorType =='Equipment'">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12" style="margin-left: 22%;
+                                            padding-top: 5%;background-color: rgb(124, 181, 236);">
+                                                    <h3>
+                                                        {{districtName}} : <span>
+                                                            {{EquipmentAverage | number:'1.0-2'}}%
+                                                        </span>
+                                                    </h3>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div #equipment style="height: 1000px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="tblStockOutMedicnes">
+                <thead>
+                    <tr>
+                        <td>Sr No.</td>
+                        <td>District</td>
+                        <td>Tehsil</td>
+                        <td>Zone</td>
+                        <td>HF Name</td>
+                        <td>Visited By</td>
+                        <td>Visit Date</td>
+                        <td>Visit Time</td>
+                        <td>Facility Status</td>
+                        <td *ngFor="let q of StockOutMedicinesQuestions">{{q}} (Available/Target)</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let stockoutData of StockoutMedicinesData;index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{stockoutData.DistrictName}}</td>
+                        <td>{{stockoutData.TehsilName}}</td>
+                        <td>{{stockoutData.ZoneName}}</td>
+                        <td>{{stockoutData.HealthFacilityName}}</td>
+                        <td>{{stockoutData.VisitedBy}}</td>
+                        <td t='s'>{{stockoutData.VisitDate | date: 'MMM dd,yyyy'}}</td>
+                        <td t='s'>{{stockoutData.VisitDate | date: 'h:mm:ss a'}}</td>
+                        <td t='s'>{{stockoutData.FacilityStatus == false ?'Closed' : stockoutData.FacilityStatus == true ? 'Open' : ''}}</td>
+                        <td t='s' *ngFor="let ques of stockoutData.Questions">
+                            <span *ngIf="ques.Target != null && ques.Target > 0">
+                            {{ques.Avialable}} / {{ques.Target}}</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

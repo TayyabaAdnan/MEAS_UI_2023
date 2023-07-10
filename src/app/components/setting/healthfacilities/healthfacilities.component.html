@@ -1,0 +1,109 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 1%;">
+      <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+        <div class="card" style="margin-top: 2%;">
+          <div class="job-search">
+            <div class="card-header">
+              <h5>Filter
+              </h5>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="HfZoneForm">
+              <div class="form-row">
+                <div class="col-md-6 mb-3 form-group">
+                  <label class="col-form-label" for="txtModule">Application Type</label>
+                  <select (change)="ShowHideDDL($event.target.value)" class="form-control digits" formControlName="ApplicationTypeId">
+                      <option value="">Please Select...</option>
+                      <option *ngFor="let m of applicationTypes" [value]="m.ApplicationTypeId">{{m.ApplicationTypeName}}</option>
+                  </select>
+                  <div *ngIf="submit && HfZoneForm.controls.ApplicationTypeId.errors?.required"
+                      class="text text-danger mt-1">
+                      Application Type is required</div>
+              </div>
+                <div class="col-md-6 mb-3 form-group">
+                    <label class="col-form-label" for="txtModule">Division</label>
+                    <select (change)="GetDistricts($event.target.value)" class="form-control digits" formControlName="DivisionCode">
+                        <option value="">Please Select...</option>
+                        <option *ngFor="let m of divisionFiltered" [value]="m.DivisionCode">{{m.DivisionName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3 form-group" *ngIf="applicationTypeId == ApplicationTypeEnum.Primary">
+                    <label class="col-form-label" for="txtModule">District</label>
+                    <select (change)="GetTehsil($event.target.value)" class="form-control digits" formControlName="DistrictCode">
+                        <option value="">Please Select...</option>
+                        <option *ngFor="let m of districtFiltered" [value]="m.DistrictCode">{{m.DistrictName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3 form-group" *ngIf="applicationTypeId == ApplicationTypeEnum.Primary">
+                    <label class="col-form-label" for="txtModule">Tehsil</label>
+                    <select (change)="GetHF($event.target.value)" class="form-control digits" formControlName="TehsilCode">
+                        <option value="">Please Select...</option>
+                        <option *ngFor="let m of tehsilFiltered" [value]="m.TehsilCode">{{m.TehsilName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3 form-group">
+                    <label class="col-form-label" for="txtApplicationType">Zone</label>
+                    <select (change)="GetZoneHF($event.target.value)" class="form-control digits"
+                        formControlName="ZoneId">
+                        <option value="">Please Select...</option>
+                        <option *ngFor="let a of ZoneFiltered" [value]="a.ZoneId">
+                            {{a.ZoneName}}</option>
+                    </select>
+                   
+                </div>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="card">
+              <div class="job-search">
+                <div class="card-body custom-datatable">
+                  <ngx-datatable class='bootstrap' [rows]='currentPageData' [columnMode]="'force'"
+                    [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'"
+                     [count]="filterObj.totalRecords"
+                    [limit]="filterObj.size" [offset]="filterObj.pageNumber"
+                    [externalPaging]="true" (page)="setPage($event)">
+                    <ngx-datatable-column name="Sr#">
+                      <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        {{ (filterObj.pageNumber  * filterObj.size) +(rowIndex + 1) }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Divison">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.DivisionName}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="District">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.DistrictName}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Tehsil">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{row.TehsilName}}
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Health Facility">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                          {{row.HealthFacilityName}}
+                        </ng-template>
+                      </ngx-datatable-column>
+                    <ngx-datatable-column name="Action">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <a type="button" (click)="onSelect(row)"><i class="fa fa-pencil-square-o iconFont"></i></a>
+                        <!-- <a type="button" *ngIf="row.Active == 0" (click)="ToggleActivationHealthFacility(row)"><i
+                            class="fa fa-ban iconFont" style="color: red;"></i></a>
+                        <a type="button" *ngIf="row.Active != 0" (click)="ToggleActivationHealthFacility(row)"><i
+                            class="fa fa-check-square-o iconFont" style="color: green;"></i></a> -->
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

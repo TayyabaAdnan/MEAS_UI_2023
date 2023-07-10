@@ -1,0 +1,310 @@
+<div>
+<div class="row"> 
+ 
+    <div class="col-md-3">
+        <div class="card card-widget widget-user-2 ">
+
+            <div class="widget-user-header bg-success">
+                <!-- <div class="widget-user-image">
+                    <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
+                </div> -->
+
+                <h3 class="widget-user-username">Today Visits <span class="float-right badge bg-white">{{
+                        this.mainCount.TodayVisits }}</span></h3>                 
+            </div>
+            
+            <div>
+                <table width="100%" align="center">
+                    <tr><td align="center"><strong>Open Facilities</strong></td>
+                    <td align="center"><strong>Close Facilities</strong></td></tr>
+                    <tr><td align="center"> <a href="/evaluation/list-new/1/0/1" class="nav-link" style="text-align:center;"><strong>{{this.mainCount.TodayOpenVisits }}</strong></a></td>
+                    <td align="center"> <a href="/evaluation/list-new/1/0/2" class="nav-link" style="text-align:center;"><strong>{{this.mainCount.TodayCloseVisits }}</strong></a></td></tr>
+                </table>
+            </div>
+            <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr style="text-align: center;">
+                              <td width="30%" ></td>
+                                <td width="23%"><strong>Open</strong></td>
+                                <td width="23%"><strong>Close</strong></td>
+                                <td width="23%"><strong>Total</strong></td>
+                            </tr>
+                            <!--  open=1, close=2, 'list-new/:type(today=1 or weekly=2 or monthly=3 or total=4)/:hftype(BHU=1, BHU24/7=3, RHC=4, THQ=5, DHQ=6)/:status(open=1, close=2, All=3)' -->
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;BHU</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/1/1" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayOpenBHUVisits }} </a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/1/2" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayCloseBHUVisits }}</a> </td>
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.TodayBHUVisits }}</span></td>
+                            </tr>
+                        </table>
+                           
+                        
+                    </li>
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;BHU 24/7</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/3/1" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayopenBHU247Visits }}</a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/3/2" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayCloseBHU247Visits }}</a> </td>
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.TodayBHU247Visits }}</span></td>
+                            </tr>
+                        </table>
+                      
+                    </li>
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;RHC</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/4/1" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayopenRHCVisits }} </a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/4/2" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayCloseRHCVisits }}</a> </td>
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.TodayRHCVisits }}</span></td>
+                            </tr>
+                        </table>
+                      
+                    </li>
+                  <!--  <li class="nav-item">
+                        <table width="100%">
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;THQ</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/5/1" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayOpenTHQVisits }} </a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/5/2" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayCloseTHQVisits }}</a> </td>
+                                <td width="23%"> <a href="#" class="nav-link" style="text-align:center;"><strong>{{ this.mainCount.TodayTHQVisits }}</strong></a> </td>
+                            </tr>
+                        </table>
+                      
+                    </li>
+                     <li class="nav-item">
+                        <table width="100%">
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;DHQ</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/6/1" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayOpenDHQVisits }} </a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/1/6/2" class="nav-link" style="text-align:center;">{{ this.mainCount.TodayCloseDHQVisits }}</a> </td>
+                                <td width="23%"> <a href="#" class="nav-link" style="text-align:center;"><strong>{{ this.mainCount.TodayDHQVisits }}</strong></a> </td>
+                            </tr>
+                        </table>
+                      
+                    </li> -->
+                </ul>
+            </div>          
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-widget widget-user-2">
+
+            <div class="widget-user-header bg-info">
+                <!-- <div class="widget-user-image">
+                    <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
+                </div> -->
+
+                <h3 class="widget-user-username">Weekly Visits <span class="float-right badge bg-white">{{
+                        this.mainCount.weekTotal }}</span></h3>
+
+                     
+                <!-- <h5 class="widget-user-desc">Lead Developer</h5> -->
+            </div>
+            <div>
+                <table width="100%" align="center">
+                    <tr><td align="center"><strong>Open Facilities</strong></td>
+                    <td align="center"><strong>Close Facilities</strong></td></tr>
+                    <tr>
+                       <td align="center"><a href="/evaluation/list-new/2/0/1" class="nav-link" style="text-align:center;"><strong>{{this.mainCount.weekOpenTotal }}</strong></a></td>
+                       <td align="center"><a href="/evaluation/list-new/2/0/2" class="nav-link" style="text-align:center;"><strong>{{this.mainCount.weekCloseTotal }}</strong></a></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr style="text-align: center;">
+                              <td width="30%"></td>
+                                <td width="23%"><strong>Open</strong></td>
+                                <td width="23%"><strong>Close</strong></td>
+                                <td width="23%"><strong>Total</strong></td>
+                            </tr>
+                            <!--  open=1, close=2, 'list-new/:type(today=1 or weekly=2 or monthly=3 or total=4)/:hftype(BHU=1, BHU24/7=3, RHC=4)/:status(open=1, close=2, All=3)' -->
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;BHU</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/2/1/1" class="nav-link" style="text-align:center;">{{ this.mainCount.weekOpenBHUVisits }} </a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/2/1/2" class="nav-link" style="text-align:center;">{{ this.mainCount.weekCloseBHUVisits }}</a> </td>
+                                
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.weekBHUVisits }}</span></td>
+                            </tr>
+                        </table>
+                           
+                        
+                    </li>
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr>
+                                <td style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;BHU 24/7</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/2/3/1" class="nav-link" style="text-align:center;">{{ this.mainCount.weekOpenBHU247Visits }}</a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/2/3/2" class="nav-link" style="text-align:center;">{{ this.mainCount.weekcloseBHU247Visits }}</a> </td>
+                               
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.weekBHU247Visits }}</span></td>
+                            </tr>
+                        </table>
+                      
+                    </li>
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr>
+                                <td style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;RHC</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/2/4/1" class="nav-link" style="text-align:center;">{{ this.mainCount.weekOpenRHCVisits }} </a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/2/4/2" class="nav-link" style="text-align:center;">{{ this.mainCount.weekCloseRHCVisits }}</a> </td>
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.weekRHCVisits }}</span></td>
+                               
+                            </tr>
+                        </table>
+                      
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-widget widget-user-2">
+
+            <div class="widget-user-header bg-warning">
+                <!-- <div class="widget-user-image">
+                    <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
+                </div> -->
+
+                <h3 class="widget-user-username">Monthly Visits <span class="float-right badge bg-white">{{
+                        this.mainCount.monthVisits }}</span></h3>
+                       
+                <!-- <h5 class="widget-user-desc">Lead Developer</h5> -->
+            </div>
+            <div>
+                <table width="100%" align="center">
+                    <tr><td align="center"><strong>Open Facilities</strong></td>
+                    <td align="center"><strong>Close Facilities</strong></td></tr>
+                    <tr><td align="center"><a href="/evaluation/list-new/3/0/1" class="nav-link" style="text-align:center;"><strong>{{this.mainCount.monthOpenVisits }}</strong></a></td>
+                    <td align="center"><a href="/evaluation/list-new/3/0/2" class="nav-link" style="text-align:center;"><strong>{{this.mainCount.monthCloseVisits }}</strong></a></td></tr>
+                </table>
+            </div>
+            <div class="card-footer p-0">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr style="text-align: center;">
+                                <td width="30%"></td>
+                                <td width="23%"><strong>Open</strong></td>
+                                <td width="23%"><strong>Close</strong></td>
+                                <td width="23%"><strong>Total</strong></td>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;BHU</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/3/1/1" class="nav-link" style="text-align:center;">{{ this.mainCount.monthOpenBHUVisits }} </a></td>
+                                <td width="23%"><a href="/evaluation/list-new/3/1/2" class="nav-link" style="text-align:center;">{{ this.mainCount.monthCloseBHUVisits }}</a> </td>
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.monthBHUVisits }}</span></td>
+
+                            </tr>
+                        </table>
+                           
+                        
+                    </li>
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;BHU 24/7</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/3/3/1" class="nav-link" style="text-align:center;">{{ this.mainCount.monthOpenBHU247Visits }}</a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/3/3/2" class="nav-link" style="text-align:center;">{{ this.mainCount.monthCloseBHU247Visits }}</a> </td>   
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.monthBHU247Visits }}</span></td>
+                            </tr>
+                        </table>
+                      
+                    </li>
+                    <li class="nav-item">
+                        <table width="100%">
+                            <tr>
+                                <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;RHC</span></td>
+                                <td width="23%"> <a href="/evaluation/list-new/3/4/1" class="nav-link" style="text-align:center;">{{ this.mainCount.monthOpenRHCVisits }} </a></td>
+                                <td width="23%"> <a href="/evaluation/list-new/3/4/2" class="nav-link" style="text-align:center;">{{ this.mainCount.monthCloseRHCVisits }}</a> </td>
+                                <td width="23%" align="center"><span style="font-size: 14px; font-weight:bold;color: #08319b; text-align: center;">{{ this.mainCount.monthRHCVisits }}</span></td>      
+                            </tr>
+                        </table>
+                      
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-widget widget-user-2">
+
+            <div class="widget-user-header bg-primary">
+                <!-- <div class="widget-user-image">
+                    <img class="img-circle elevation-2" src="../dist/img/user7-128x128.jpg" alt="User Avatar">
+                </div> -->
+
+                <h3 class="widget-user-username">Total Visits <span class="float-right badge bg-white">{{
+                        this.mainCount.TotalVisits }}</span></h3>
+                     
+                <!-- <h5 class="widget-user-desc">Lead Developer</h5> -->
+            </div>
+            
+                <div>
+                    <table width="100%" align="center">
+                        <tr><td align="center"><strong>Open Facilities</strong></td>
+                        <td align="center"><strong>Close Facilities</strong></td></tr>
+                        <tr><td align="center"><a href="#" class="nav-link" style="text-align:center;"><strong>{{this.mainCount.TotalOpenVisits }}</strong></a></td>
+                        <td align="center"><a href="#" class="nav-link" style="text-align:center;"><strong>{{this.mainCount.TotalCloseVisits }}</strong></a></td></tr>
+                    </table>
+                </div>
+
+                <div class="card-footer p-0">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <table width="100%">
+                                <tr style="text-align: center;">
+                                  <td width="30%">&nbsp;</td>
+                                    <td width="23%"><strong>Open</strong></td>
+                                    <td width="23%"><strong>Close</strong></td>
+                                    <td width="23%"><strong>Total</strong></td>
+                                </tr>
+                                <tr>
+                                    <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;BHU</span></td>
+                                    <td width="23%">  <a href="/evaluation/list-new/4/1/1" class="nav-link" style="text-align:center;">{{ this.mainCount.TotalOpenBHUVisits }} </a></td>
+                                    <td width="23%">  <a href="/evaluation/list-new/4/1/2" class="nav-link" style="text-align:center;">{{ this.mainCount.TotalCloseBHUVisits }}</a> </td>
+                                    <td width="23%"> <a href="#" class="nav-link" style="text-align:right;"><strong>{{ this.mainCount.TotalBHUVisits }}</strong></a> </td>
+                                </tr>
+                            </table>
+                               
+                            
+                        </li>
+                        <li class="nav-item">
+                            <table width="100%">
+                                <tr>
+                                    <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;BHU 24/7</span></td>
+                                    <td width="23%"> <a href="/evaluation/list-new/4/3/1" class="nav-link" style="text-align:center;">{{ this.mainCount.TotalOpenBHU247Visits }}</a></td>
+                                    <td width="23%">  <a href="/evaluation/list-new/4/3/2" class="nav-link" style="text-align:center;">{{ this.mainCount.TotalCloseBHU247Visits }}</a> </td>
+                                    <td width="23%"> <a href="#" class="nav-link" style="text-align:right;"><strong>{{ this.mainCount.TotalBHU247Visits }}</strong></a> </td>
+                                </tr>
+                            </table>
+                          
+                        </li>
+                        <li class="nav-item">
+                            <table width="100%">
+                                <tr>
+                                    <td width="30%" style="margin-left: 2px;"><span style="color: black; font-size: 14px; font-weight:bold;margin-left: 2px;">&nbsp;&nbsp;&nbsp;RHC</span></td>
+                                    <td width="23%"> <a href="/evaluation/list-new/4/4/1" class="nav-link" style="text-align:center;">{{ this.mainCount.TotalOpenRHCVisits }} </a></td>
+                                    <td width="23%"><a href="/evaluation/list-new/4/4/2" class="nav-link" style="text-align:center;">{{ this.mainCount.TotalCloseRHCVisits }}</a> </td>
+                                    <td width="23%"> <a href="#" class="nav-link" style="text-align:right;"><strong>{{ this.mainCount.TotalRHCVisits }}</strong></a> </td>
+                                </tr>
+                            </table>
+                          
+                        </li>
+                    </ul>
+                </div>         
+
+         
+        </div>
+    </div>
+
+</div>

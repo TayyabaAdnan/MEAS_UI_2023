@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-xl-12">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h6>{{HfZoneMode}}</h6>
+                    </div>
+                    <div class="card-body" [Loader]="loaderService.isLoading | async">
+                        <form [formGroup]="HfZoneForm">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Application Type</label>
+                                    <select (change)="ShowHideDDL($event.target.value)" class="form-control digits" formControlName="ApplicationTypeId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of applicationTypes" [value]="m.ApplicationTypeId">{{m.ApplicationTypeName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && HfZoneForm.controls.ApplicationTypeId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Application Type is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Division</label>
+                                    <select (change)="GetDistricts($event.target.value)" class="form-control digits" formControlName="DivisionCode">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of divisionFiltered" [value]="m.DivisionCode">{{m.DivisionName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && HfZoneForm.controls.DivisionCode.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Division is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group" *ngIf="applicationTypeId == ApplicationTypeEnum.Primary">
+                                    <label class="col-form-label" for="txtModule">District</label>
+                                    <select (change)="GetTehsil($event.target.value)" class="form-control digits" formControlName="DistrictCode">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of districtFiltered" [value]="m.DistrictCode">{{m.DistrictName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && HfZoneForm.controls.DistrictCode.errors?.required"
+                                        class="text text-danger mt-1">
+                                        District is required</div>
+                                </div>
+                                <!-- <div class="col-md-6 mb-3 form-group" *ngIf="applicationTypeId == ApplicationTypeEnum.Primary">
+                                    <label class="col-form-label" for="txtModule">Tehsil</label>
+                                    <select (change)="GetHF($event.target.value)" class="form-control digits" formControlName="TehsilCode">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of tehsilFiltered" [value]="m.TehsilCode">{{m.TehsilName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && HfZoneForm.controls.TehsilCode.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Tehsil is required</div>
+                                </div> -->
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtApplicationType">Zone</label>
+                                    <select (change)="GetZoneHF($event.target.value)" class="form-control digits"
+                                        formControlName="ZoneId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let a of ZoneFiltered" [value]="a.ZoneId">
+                                            {{a.ZoneName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && HfZoneForm.controls.ZoneId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Zone is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtShift">Health Facility</label>
+                                    <ng-select [items]="HFFiltered" bindLabel="HealthFacilityName" bindValue="HfId" placeholder="Select Health Facility"
+                                        appendTo="body" searchable="true" multiple="true" formControlName="HF">
+                                    </ng-select>
+                                    <div *ngIf="submit && HfZoneForm.controls.HF.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Health Facility is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" (click)="save()">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

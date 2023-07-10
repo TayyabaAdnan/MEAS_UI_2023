@@ -1,0 +1,212 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 1%;">
+        <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+            <div class="row" style="margin-bottom: 1%;">
+                <div class="col-md-12">
+                    <ngb-accordion [closeOthers]="true">
+                        <ngb-panel ngbPanelHeader id="filter" title="FILTERS" class="titleA" style="background-color: sandybrown;">
+                            <ng-template ngbPanelContent class="contentA">
+                                <div class="card" style="margin-top: 2%;">
+                                    <div class="job-search">
+                                        <div class="card-body">
+                                            <form class="form theme-form" [formGroup]="searchForm">
+                                                <div class="form-row">
+                                                    <div class="col-md-4 col-sm-12 form-group" *ngIf="HaveAccessTo('Division')">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Division</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="division" formControlName="divisionId" (change)="getDistrictByDivisionId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let d of divisions"
+                                                                    [value]="d.DivisionCode">
+                                                                    {{d.DivisionName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group" *ngIf="HaveAccessTo('District')">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            District</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="district" formControlName="districtId" (change)="getTehsilByDistrictId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let dis of districts"
+                                                                    [value]="dis.DistrictCode">
+                                                                    {{dis.DistrictName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Tehsil</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="Province" formControlName="tehsilId" (change)="getzoneByTehsilId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let t of tehsils"
+                                                                    [value]="t.TehsilCode">
+                                                                    {{t.TehsilName}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Zone</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="zone" formControlName="ZoneId" (change)="UpdateSearchObject($event.target.value,'Zone')">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let u of zones" [value]="u.ZoneId">
+                                                                    {{u.ZoneName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            HF
+                                                            Type</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="zone" formControlName="HfTypeId" (change)="UpdateSearchObject($event.target.value,'HfType')">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let u of hfTypes"
+                                                                    [value]="u.FacilityTypeId">
+                                                                    {{u.FaciltyTypeName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">From
+                                                            Date</label>
+                                                        <div class="col-md-12">
+                                                            <input class="form-control digits" type="date" [ngModel]="date | date:'yyyy-MM-dd'" formControlName="fromDate" (input)='updateFromDate($event)'>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">To
+                                                            Date</label>
+                                                        <div class="col-md-12">
+                                                            <input class="form-control digits" type="date" [ngModel]="date | date:'yyyy-MM-dd'" formControlName="toDate" (input)='updateToDate($event)'>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mb-3 form-group">
+                                                        <span>
+                                                            <div class="row">
+                                                                <div class="col-md-10">
+                                                                    &nbsp;
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <button class="btn btn-primary"
+                                                                        (click)="SearchRecord()" type="button"><span><i
+                                                                                class="fa fa-check text-white"></i></span> Search
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                </div>
+            </div>
+            </ng-template>
+            </ngb-panel>
+            </ngb-accordion>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h5 style="font-size: medium;">BEmONC - KDC Indicators Functionality Status</h5>
+                        <!-- <a (click)="ExportList()" title="Export Table Data" style="cursor: pointer;;margin-right: 2%;;margin-bottom: 1%" class="btn btn-primary padding-4 float-right" type="button"><i
+                                        class="fa fa-file-excel-o text-white fa-lg "></i></a> -->
+                    </div>
+                    <div class="card-body custom-datatable">
+                        <div class="form-row">
+                            <div class="col-xl-12">
+                                <input type='text' class="filter-ngx form-control" placeholder='Type to filter...' (keyup)='updateFilter($event)' style="float: right;" /></div>
+                        </div>
+                        <!-- <ngx-datatable class='bootstrap' [rows]='facilitiesBemoOnce' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [reorderable]="reorderable" [count]="filterObj.totalRecords" [limit]="filterObj.size"
+                            [offset]="filterObj.pageNumber" [externalPaging]="true" (page)="setPage($event)">
+                            <ngx-datatable-column name="Visit Date" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.DistrictName | date: 'yyyy-MM-dd hh:mm:ss a'}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="District" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.HealthFacilityName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Facility Name" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.ModeName}} ( {{row.ShiftName}} )
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="SBA Available" [width]="70">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.FacilityStatus == false ?'Closed' : row.FacilityStatus == true ? 'Open' : ''}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Labour Room Toilet Functional" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoredBy}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Electricity Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Water Supply System Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.SyncOn}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Delivery Table Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Delivery Light Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Emergency Tray Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="BP Apparatus Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Oxygen Cylinders Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Autoclave Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Delivery Set Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Backup Power Functional">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MonitoringDate }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

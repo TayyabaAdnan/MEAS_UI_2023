@@ -1,0 +1,113 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-xl-12">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h6>Assign Special Visit</h6>
+                    </div>
+                    <div class="card-body" [Loader]="loaderService.isLoading | async">
+                        <form [formGroup]="SpecialVisitForm">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Division</label>
+                                    <select (change)="GetDistricts($event.target.value)" class="form-control digits" formControlName="DivisionId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of divisionFiltered" [value]="m.DivisionCode">{{m.DivisionName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.DivisionId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Division is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">District</label>
+                                    <select (change)="GetTehsil($event.target.value)" class="form-control digits" formControlName="DistrictId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of districtFiltered" [value]="m.DistrictCode">{{m.DistrictName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.DistrictId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        District is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Tehsil</label>
+                                    <select (change)="GetZones($event.target.value)" class="form-control digits" formControlName="TehsilId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of tehsilFiltered" [value]="m.TehsilCode">{{m.TehsilName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.TehsilId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Tehsil is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Zone</label>
+                                    <select (change)="GetUsers($event.target.value)" class="form-control digits" formControlName="ZoneId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of zonesFiltered" [value]="m.ZoneId">{{m.ZoneName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.ZoneId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Zone is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">User</label>
+                                    <select class="form-control digits" formControlName="userId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of users" [value]="m.UserId">{{m.FullName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.userId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        User is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Health Facility</label>
+                                    <select  (change)="GetShifts($event.target.value)" class="form-control digits" formControlName="HfId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of HealthFacilitiesFiltered" [value]="m.HfId">{{m.HealthFacilityName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.HfId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Health Facility is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Shift</label>
+                                    <select class="form-control digits" formControlName="ShiftId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of shiftsFiltered" [value]="m.ShiftId">{{m.ShiftName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.ShiftId.errors?.required"
+                                        class="text text-danger mt-1">
+                                       Shift is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Month</label>
+                                    <select class="form-control digits" formControlName="Month">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of months" [value]="m">{{m}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.Month.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Month is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Year</label>
+                                    <select class="form-control digits" formControlName="Year">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of years" [value]="m">{{m}}</option>
+                                    </select>
+                                    <div *ngIf="submit && SpecialVisitForm.controls.Year.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Year is required</div>
+                                </div>
+                               
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" (click)="save()">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

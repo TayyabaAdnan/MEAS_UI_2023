@@ -1,0 +1,42 @@
+table thead {
+    font-weight: bold;
+    background-color: rgb(191, 191, 191);
+}
+
+table th,
+table td {
+    padding: 0 6px;
+    text-align: center;
+}
+
+
+/* CSS TABLE STYLES */
+
+.css-table {
+    display: table;
+}
+
+.css-table-header {
+    display: table-header-group;
+    font-weight: bold;
+    background-color: rgb(191, 191, 191);
+}
+
+.css-table-body {
+    display: table-row-group;
+}
+
+.css-table-row {
+    display: table-row;
+}
+
+.css-table-header div,
+.css-table-row div {
+    display: table-cell;
+    padding: 0 6px;
+}
+
+.css-table-header div {
+    text-align: center;
+    border: 1px solid rgb(255, 255, 255);
+}

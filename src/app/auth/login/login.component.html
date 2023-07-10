@@ -1,0 +1,151 @@
+<div class="container-fluid">
+	<div class="mapbg"></div>
+	<div class="row">
+		<div class="col-md-6 left-log hide">
+			<!-- <div class="img-dialog" style="height: 150px;"> -->
+			<div class="hex-grid">
+				
+				 <ul class="list-unstyled">
+					<li class="svg-hex-1">
+						<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+						  <defs>
+							<pattern id="polio1" patternUnits="userSpaceOnUse" width="100" height="100">
+							  <image xlink:href="../../../assets/images/Vaccine-images/1.jpg" x="-25" width="150" height="100"></image>
+							</pattern>
+						  </defs>
+						  <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" fill="url(#polio1)"></polygon>
+						</svg>
+					</li>
+					<li class="svg-hex-2">
+						<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+						  <defs>
+							<pattern id="polio2" patternUnits="userSpaceOnUse" width="100" height="100">
+							  <image xlink:href="../../../assets/images/Vaccine-images/2.jpg" x="-25" width="150" height="100"></image>
+							</pattern>
+						  </defs>
+						  <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" fill="url(#polio2)"></polygon>
+						</svg>
+					</li>
+					<li class="svg-hex-3">
+						<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+						  <defs>
+							<pattern id="polio9" patternUnits="userSpaceOnUse" width="100" height="100">
+							  <image xlink:href="../../../assets/images/Vaccine-images/3.jpg" x="-25" width="150" height="100"></image>
+							</pattern>
+						  </defs>
+						  <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" fill="url(#polio9)"></polygon>
+						</svg>
+					</li>
+					<li class="svg-hex-4">
+						<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+						  <defs>
+							<pattern id="polio4" patternUnits="userSpaceOnUse" width="100" height="100">
+							  <image xlink:href="../../../assets/images/Vaccine-images/4.jpg" x="-25" width="150" height="100"></image>
+							</pattern>
+						  </defs>
+						  <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" fill="url(#polio4)"></polygon>
+						</svg>
+					</li>
+					<li class="svg-hex-5">
+						<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+						  <defs>
+							<pattern id="polio5" patternUnits="userSpaceOnUse" width="100" height="100">
+							  <image xlink:href="../../../assets/images/Vaccine-images/5.jpeg" x="-25" width="150" height="100"></image>
+							</pattern>
+						  </defs>
+						  <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" fill="url(#polio5)"></polygon>
+						</svg>
+					</li>
+					<li class="svg-hex-6">
+						<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+						  <defs>
+							<pattern id="polio6" patternUnits="userSpaceOnUse" width="100" height="100">
+							  <image xlink:href="https://www.eoc.gov.pk/assets/images/polio/polio6.jpg" x="-25" width="150" height="100"></image>
+							</pattern>
+						  </defs>
+						  <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" fill="url(#polio6)"></polygon>
+						</svg>
+					</li>
+					<li class="svg-hex-7">
+						<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+						  <defs>
+							<pattern id="polio7" patternUnits="userSpaceOnUse" width="100" height="100">
+							  <image xlink:href="https://www.eoc.gov.pk/assets/images/polio/polio7.jpg" x="-25" width="150" height="100"></image>
+							</pattern>
+						  </defs>
+						  <polygon points="50 1 95 25 95 75 50 99 5 75 5 25" fill="url(#polio7)"></polygon>
+						</svg>
+					</li>
+				</ul> </div>
+			<!-- </div> -->
+		</div>
+		<div class="col-md-6 right-log col-sm-12" [Loader]="loaderService.isLoading | async">
+			<div class="login-wrap">
+				<div class="logo-wrap">
+					<img src="../../../assets/images/PEI Logo.png" class="brand" alt="NATIONAL EOC DASHBOARD"><br/>
+				   <h4 style="margin-top:4%;">MEAs Health</h4>
+				</div>
+				<div class="form-wrap">
+				<form class="theme-form" [formGroup]="loginForm">
+					<div class="row">
+						<div class="form-group col-md-6 col-sm-10">
+							<label class="col-form-label pt-0">User Name</label>
+							<input class="form-control" formControlName="username" type="text" required="">
+							<div *ngIf="loginForm.controls.username.touched && loginForm.controls.username.errors?.required"
+								class="text text-danger mt-1">
+								User Name is required
+							</div>
+						</div>
+					
+					<div class="form-group col-md-6 col-sm-10">
+						<label class="col-form-label pt-0">Password</label>
+						<input class="form-control" type="password" formControlName="password" required="">
+						<div *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.required"
+							class="text text-danger mt-1">
+							Password is required
+						</div>
+					</div>
+					<div class="form-group col-md-6 col-sm-10">
+					<div class="checkbox p-0">
+						<input id="checkbox1" type="checkbox">
+						<label for="checkbox1">Remember me</label>
+					</div>
+				</div>
+				<div class="form-group col-md-3 col-sm-6"></div>
+					<div class="form-group col-md-3 col-sm-6" style="text-align: left;">
+						<button class="btn btn-primary btn-block"
+							[class.loader--text]="authService.showLoader"
+							(click)="login()"
+							type="submit"><span>Login</span>
+						</button>
+					</div>
+				</div>
+				</form></div>
+			</div>
+		
+		</div>
+	</div>
+	
+	</div>
+
+
+	<!-- <div class="row">
+	  <div class="img-dialog">
+	  </div>
+	  <div class="login-dialog">
+		<div class="authentication-box" [Loader]="loaderService.isLoading | async">
+			<div class="" style="margin-top: 25%;">
+				<div class="" >
+					<div class="text-center"><img class="image-width" src="../../../assets/images/PEI Logo.png" alt="" 
+						style="height: 10%;width: 30%;" />
+						</div>
+					<div class="text-center">
+						<h4>SYNERGY EVALUATION SYSTEM</h4>
+                    </div>
+                    
+					
+				</div>
+			</div>
+		</div>
+	  </div>
+	</div> -->

@@ -1,0 +1,223 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-xl-12">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h4>View Indicators</h4>
+                    </div>
+                    <div class="card-body" [Loader]="loaderService.isLoading | async">
+                        <form [formGroup]="indicatorForm">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtApplicationType">Application Type</label>
+                                    <select (change)="GetModules($event.target.value)" class="form-control digits"
+                                        formControlName="ApplicationType">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let a of ApplicationTypes" [value]="a.ApplicationTypeId">
+                                            {{a.ApplicationTypeName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && indicatorForm.controls.ApplicationTypeId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Application Type is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtApplicationType">Modules</label>
+                                    <select class="form-control digits" formControlName="ModuleId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let a of ModulesSelected" [value]="a.ModuleId">
+                                            {{a.ModuleName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && indicatorForm.controls.CategoryId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Module is required</div>
+                                </div>
+
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="HfTypeId">HF Type</label>
+                                    <select (change)="GetHealthFacilities($event.target.value)"
+                                        class="form-control digits" formControlName="HfTypeId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let a of HFTypeFilteredList" [value]="a.FacilityTypeId">
+                                            {{a.FaciltyTypeName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && indicatorForm.controls.HfTypeId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        HF Type is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="ShiftId">Shift</label>
+                                    <select class="form-control digits" formControlName="ShiftId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let a of shiftsFiltered" [value]="a.ShiftId">
+                                            {{a.ShiftName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && indicatorForm.controls.ShiftId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Module is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="HfId">HF</label>
+                                    <select class="form-control digits" formControlName="HfId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let a of HfFiltered" [value]="a.HfId">
+                                            {{a.HfName}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="FormId">Form Type</label>
+                                    <select class="form-control digits" formControlName="FormId">
+                                        <option value="">Please Select...</option>
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="text-align: right;">
+                                <button class="btn btn-primary" (click)="Search()">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div *ngFor="let cat of indicators">
+                <h3>{{cat.CategoryName}}</h3>
+                <div *ngFor="let subCat of cat.SubCategories">
+                    <h5>{{subCat.SubCategoryName}}</h5>
+                    <div *ngFor="let subcatIndicator of subCat.Indicators">
+                        <label>{{subcatIndicator.SequenceNo}} ) {{subcatIndicator.Question}}</label>
+                        <input type="text" *ngIf="subcatIndicator.OptionsType == 'Textbox'" class="form-control">
+                        <input type="date" *ngIf="subcatIndicator.OptionsType == 'DateTime'" class="form-control">
+                        <input type="file" *ngIf="subcatIndicator.OptionsType == 'Image'" class="form-control">
+                        <div *ngIf="subcatIndicator.OptionsType == 'Dropdown'">
+                            <select class="form-control">
+                                <option *ngFor="let subIndicatorOptions of subcatIndicator.Options">
+                                    {{subIndicatorOptions.Label}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="subcatIndicator.OptionsType == 'MultiSelection'">
+                            <select class="form-control">
+                                <option *ngFor="let subIndicatorOptions of subcatIndicator.Options">
+                                    {{subIndicatorOptions.Label}}
+                                </option>
+                            </select>
+                        </div>
+                        <ng-container *ngTemplateOutlet="RecursionSubCat; context:{ list: subcatIndicator.SubIndicators}">
+                        </ng-container>
+                        <ng-template #RecursionSubCat let-list="list">
+                            <div *ngFor="let item of list" style="margin-bottom: 1%;margin-left: 2%;">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <label>{{item.SequenceNo}} ) {{item.Question}}</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" *ngIf="item.OptionsType == 'Textbox'" class="form-control">
+                                        <input type="date" *ngIf="item.OptionsType == 'DateTime'" class="form-control">
+                                        <input type="file" *ngIf="item.OptionsType == 'Image'" class="form-control">
+                                        <div *ngIf="item.OptionsType == 'Dropdown'">
+                                            <select class="form-control">
+                                                <option *ngFor="let IndicatorOptions of item.Options">
+                                                    {{IndicatorOptions.Label}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div *ngIf="item.OptionsType == 'Radiobutton'">
+                                            <select class="form-control">
+                                                <option *ngFor="let IndicatorOptions of item.Options">
+                                                    {{IndicatorOptions.Label}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div *ngIf="item.OptionsType == 'MultiSelection'">
+                                            <select class="form-control">
+                                                <option *ngFor="let IndicatorOptions of item.Options">
+                                                    {{IndicatorOptions.Label}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="item.SubIndicators.length > 0">
+                                    <ng-container *ngTemplateOutlet="RecursionSubCat; context:{ list: item.SubIndicators }">
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+                <div *ngFor="let catIndicator of cat.Indicators" style="margin-bottom: 1%;">
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label [style.background]="catIndicator.IsPhysicalView == true? 'green': ''">{{catIndicator.SequenceNo}} ) {{catIndicator.Question}}</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" *ngIf="catIndicator.OptionsType == 'Textbox'" class="form-control">
+                            <input type="date" *ngIf="catIndicator.OptionsType == 'DateTime'" class="form-control">
+                            <input type="file" *ngIf="catIndicator.OptionsType == 'Image'" class="form-control">
+                            <div *ngIf="catIndicator.OptionsType == 'Radiobutton'">
+                                <select class="form-control">
+                                    <option *ngFor="let IndicatorOptions of catIndicator.Options">
+                                        {{IndicatorOptions.Label}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div *ngIf="catIndicator.OptionsType == 'MultiSelection'">
+                                <span class="checkbox" *ngFor="let IndicatorOptions of catIndicator.Options">
+                                    <input id="{{IndicatorOptions.Label}}" type="checkbox">
+                                    <label for="{{IndicatorOptions.Label}}">{{IndicatorOptions.Label}}</label>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngTemplateOutlet="Recursion; context:{ list: catIndicator.SubIndicators}">
+                    </ng-container>
+                    <ng-template #Recursion let-list="list">
+                        <div *ngFor="let item of list" style="margin-bottom: 1%;margin-left: 2%;">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <label>{{item.SequenceNo}} ) {{item.Question}}</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" *ngIf="item.OptionsType == 'Textbox'" class="form-control">
+                                    <input type="date" *ngIf="item.OptionsType == 'DateTime'" class="form-control">
+                                    <input type="file" *ngIf="item.OptionsType == 'Image'" class="form-control">
+                                    <div *ngIf="item.OptionsType == 'Dropdown'">
+                                        <select class="form-control">
+                                            <option *ngFor="let IndicatorOptions of item.Options">
+                                                {{IndicatorOptions.Label}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div *ngIf="item.OptionsType == 'Radiobutton'">
+                                        <select class="form-control">
+                                            <option *ngFor="let IndicatorOptions of item.Options">
+                                                {{IndicatorOptions.Label}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div *ngIf="item.OptionsType == 'MultiSelection'">
+                                        <select class="form-control">
+                                            <option *ngFor="let IndicatorOptions of item.Options">
+                                                {{IndicatorOptions.Label}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="item.SubIndicators.length > 0">
+                                <ng-container *ngTemplateOutlet="Recursion; context:{ list: item.SubIndicators }">
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

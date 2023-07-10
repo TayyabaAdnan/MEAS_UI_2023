@@ -1,0 +1,44 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-xl-12">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h6>Update Health Facility</h6>
+                    </div>
+                    <div class="card-body" [Loader]="loaderService.isLoading | async">
+                        <form [formGroup]="HFActiveForm">
+                            <div class="form-row">
+                                <div class="col-md-12 mb-3 form-group">
+                                    <label class="col-form-label" for="txtApplicationType">Remarks</label>
+                                   <textarea rows="2" cols="30" class="form-control" formControlName="Remarks"></textarea>
+                                    <div *ngIf="submit && HFActiveForm.controls.Remarks.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Remarks Are Mandatory</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="d-block" for="IsActive" style="margin-top:20%;">
+                                        <input class="checkbox_animated" id="IsActive" name="IsActive" type="checkbox"
+                                            checked="" formControlName="IsActive">Active
+                                    </label>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group" *ngIf="HFActiveForm.controls.IsActive.value == false">
+                                    <label class="col-form-label" for="txtApplicationType">InActive Till</label>
+                                    <input type="date" class="form-control" formControlName="InActiveTill"
+                                    value="{{list[0].InActiveTill | date:'yyyy-MM-dd' }}">
+                                    <div *ngIf="submit && HFActiveForm.controls.InActiveTill.errors?.required"
+                                        class="text text-danger mt-1">
+                                        InActive Till Date Mandatory</div>
+                                </div>
+                               
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" (click)="save()">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

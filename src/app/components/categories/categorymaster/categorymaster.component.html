@@ -1,0 +1,86 @@
+<div class="container-fluid">
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-xl-12">
+            <div class="card" style="margin-top: 2%;">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h6>{{CategoryMode}}</h6>
+                    </div>
+                    <div class="card-body" [Loader]="loaderService.isLoading | async">
+                        <form [formGroup]="categoryForm">
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtApplicationType">Application Type</label>
+                                    <select (change)="GetModules($event.target.value)" class="form-control digits"
+                                        formControlName="ApplicationTypeId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let a of ApplicationTypes" [value]="a.ApplicationTypeId">
+                                            {{a.ApplicationTypeName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && categoryForm.controls.ApplicationTypeId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Application Type is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtModule">Module</label>
+                                    <select class="form-control digits" formControlName="ModuleId">
+                                        <option value="">Please Select...</option>
+                                        <option *ngFor="let m of filteredModules" [value]="m.ModuleId">{{m.ModuleName}}</option>
+                                    </select>
+                                    <div *ngIf="submit && categoryForm.controls.ModuleId.errors?.required"
+                                        class="text text-danger mt-1">
+                                        ModuleId is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtShift">Health Facility Type</label>
+                                    <ng-select [items]="HFTypesFilter" bindLabel="FaciltyTypeName" placeholder="Select Health Facility Type"
+                                    appendTo="body" searchable="true" multiple="true" formControlName="HfTypes">
+                                </ng-select>
+                                    <div *ngIf="submit && categoryForm.controls.HfTypes.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Health Facility Type is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="txtShift">Shift</label>
+                                    <ng-select [items]="Shifts" bindLabel="ShiftName" placeholder="Select Shift"
+                                        appendTo="body" searchable="true" multiple="true" formControlName="Shifts">
+                                    </ng-select>
+                                    <div *ngIf="submit && categoryForm.controls.shifts.errors?.required"
+                                        class="text text-danger mt-1">
+                                        shifts is required</div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="CategoryName">Category Name</label>
+                                    <input class="form-control" id="CategoryName" type="text" name="CategoryName"
+                                        formControlName="CategoryName" placeholder="Category Name" autocomplete="off">
+                                    <div *ngIf="(categoryForm.controls.CategoryName.touched || submit) && categoryForm.controls.CategoryName.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Category Name is required
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="col-form-label" for="SequenceNo">Sequence #</label>
+                                    <input class="form-control" id="SequenceNo" type="number" name="SequenceNo"
+                                        formControlName="SequenceNo" placeholder="Sequence #" autocomplete="off">
+                                    <div *ngIf="(categoryForm.controls.SequenceNo.touched || submit) && categoryForm.controls.SequenceNo.errors?.required"
+                                        class="text text-danger mt-1">
+                                        Sequence # is required
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3 form-group">
+                                    <label class="d-block" for="isActive" style="margin-top:7%;">
+                                        <input class="checkbox_animated" id="isActive" name="isActive" type="checkbox"
+                                            checked="" formControlName="isActive">Active
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" (click)="save()">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,200 @@
+<div class="container-fluid">
+  <div class="row" style="margin-bottom: 1%;">
+    <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+      <div class="card" style="margin-top: 2%;">
+        <div class="job-search">
+          <div class="card-header">
+            <h5>Users
+                  <button type="button" class="btn btn-primary btn-sm mb-3 ml-2 mb-sm-0 float-right"
+                    (click)="createUser()"><i class="uil-plus"></i>Create</button>
+            </h5>
+          </div>
+         
+          <div class="card-body">
+            <form class="form theme-form" [formGroup]="searchForm">
+              <div class="form-row">
+                <div class="col-md-4 col-sm-12 form-group">
+                  <label for="exampleFormControlInput1" class="col-md-12">Select Division</label>
+                  <div class="col-md-12 col-sm-12">
+                    <select class="form-control digits" name="division" formControlName="divisionId"
+                      (change)="getDistrictByDivisionId($event.target.value)">
+                      <option value="">Please Select...</option>
+                      <option *ngFor="let d of divisions" [value]="d.DivisionCode">{{d.DivisionName}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-12 form-group">
+                  <label for="exampleFormControlInput1" class="col-md-12">Select District</label>
+                  <div class="col-md-12 col-sm-12">
+                    <select class="form-control digits" name="district" formControlName="districtId"
+                      (change)="getTehsilByDistrictId($event.target.value)">
+                      <option value="">Please Select...</option>
+                      <option *ngFor="let dis of districts" [value]="dis.DistrictCode">{{dis.DistrictName}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-12 form-group">
+                  <label for="exampleFormControlInput1" class="col-md-12">Select Tehsil</label>
+                  <div class="col-md-12 col-sm-12">
+                    <select class="form-control digits" name="Province" formControlName="tehsilId"
+                      (change)="getzoneByTehsilId($event.target.value)">
+                      <option value="">Please Select...</option>
+                      <option *ngFor="let t of tehsils" [value]="t.TehsilCode">{{t.TehsilName}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-12 form-group">
+                  <label for="exampleFormControlInput1" class="col-md-12">Select Zone</label>
+                  <div class="col-md-12 col-sm-12">
+                    <select class="form-control digits" name="zone" formControlName="ZoneId"
+                      (change)="UpdateSearchObject($event.target.value,'Zone')">
+                      <option value="">Please Select...</option>
+                      <option *ngFor="let u of zones" [value]="u.ZoneId">{{u.ZoneName}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3 form-group">
+                  <span class="pull-right">
+                    <button class="btn btn-primary" (click)="SearchRecord()" type="button"><span><i
+                          class="fa fa-check text-white"></i></span>
+                      Search</button></span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="job-search">
+              <div class="card-header">
+                <!-- <a style="cursor: pointer;" (click)="ExportList()"
+            class="btn btn-primary padding-4 float-right" type="button"><i
+              class="fa fa-file-excel-o text-white fa-lg "></i></a> -->
+              </div>
+              <div class="card-body custom-datatable">
+                <div class="form-row">
+                  <div class="col-xl-12">
+                    <input type='text' class="filter-ngx form-control" placeholder='Type to filter...'
+                      (keyup)='updateFilter($event)' style="float: right;" /></div>
+                </div>
+                <ngx-datatable class='bootstrap' [rows]='_useService.userlist' [columnMode]="'force'"
+                  [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'"
+                  [reorderable]="reorderable" [count]="_useService.filterObj.totalRecords"
+                  [limit]="_useService.filterObj.size" [offset]="_useService.filterObj.pageNumber"
+                  [externalPaging]="true" (page)="setPage($event)">
+                  <ngx-datatable-column name="Sr#">
+                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                      {{ (_useService.filterObj.pageNumber  * _useService.filterObj.size) +(rowIndex + 1) }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Division">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.DivisionName}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="District">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.DistrictName}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Tehsil">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.TehsilName}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Zone">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.ZoneName}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Full Name">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.FullName}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="User Name">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.UserName}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Password" *ngIf="CurrentUser.UserId == 1">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.Password}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Email">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.Email}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Contact #">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.ContactNo}}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="CNIC">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      {{row.CNIC  }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Action">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <a type="button" (click)="onSelect(row)"><i class="fa fa-pencil-square-o iconFont"></i></a>
+                      <a type="button" *ngIf="row.IsActive == false" (click)="ToggleActivationUser(row)"><i
+                          class="fa fa-ban iconFont" style="color: red;"></i></a>
+                      <a type="button" *ngIf="row.IsActive != false" (click)="ToggleActivationUser(row)"><i
+                          class="fa fa-check-square-o iconFont" style="color: green;"></i></a>
+                          <a type="button" (click)="DeleteUser(row)"><i
+                            class="fa fa-trash-o iconFont" style="color: red;"></i></a>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="display: none;">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table" id="tblUser">
+            <thead>
+              <tr>
+                <td>Sr No.</td>
+                <td>Province</td>
+                <td>Division</td>
+                <td>District</td>
+                <td>Tehsil</td>
+                <td>UC</td>
+                <td>Full Name</td>
+                <td>Designation</td>
+                <td>Username</td>
+                <td *ngIf="CurrentUser.UserId == 2556 || CurrentUser.UserRole == UserTypeEnum.SuperAdmin">Password</td>
+                <td>Contact #</td>
+                <td>CNIC</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of userListExport;index as i">
+                <td>{{i+1}}</td>
+                <td>{{user.PROVINCE}}</td>
+                <td>{{user.DIVISION}}</td>
+                <td>{{user.DISTRICT}}</td>
+                <td>{{user.TEHSIL}}</td>
+                <td>{{user.UC}}</td>
+                <td>{{user.FullName}}</td>
+                <td>{{user.DesignationName}}</td>
+                <td>{{user.Username}}</td>
+                <td *ngIf="CurrentUser.UserId == 2556 || CurrentUser.UserRole == UserTypeEnum.SuperAdmin">{{user.Password}}</td>
+                <td>{{user.ContactNo}}</td>
+                <td>{{user.CNIC}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>

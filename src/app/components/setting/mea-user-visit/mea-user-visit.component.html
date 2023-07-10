@@ -1,0 +1,270 @@
+<div class="container-fluid">
+    <div class="row" style="margin-bottom: 1%;">
+        <div class="col-md-12 col-sm-12" [Loader]="loaderService.isLoading | async">
+            <div class="row" style="margin-bottom: 1%;">
+                <div class="col-md-12">
+                    <ngb-accordion [closeOthers]="true">
+                        <ngb-panel ngbPanelHeader id="filter" title="FILTERS" class="titleA" style="background-color: sandybrown;">
+                            <ng-template ngbPanelContent class="contentA">
+                                <div class="card" style="margin-top: 2%;">
+                                    <div class="job-search">
+                                        <div class="card-body">
+                                            <form class="form theme-form" [formGroup]="searchForm">
+                                                <div class="form-row">
+
+                                                    <div class="col-md-4 col-sm-12 form-group" *ngIf="HaveAccessTo('Division')">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Division</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="division" formControlName="divisionId" (change)="getDistrictByDivisionId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let d of divisions"
+                                                                    [value]="d.DivisionCode">
+                                                                    {{d.DivisionName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group" *ngIf="HaveAccessTo('District')">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            District</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="district" formControlName="districtId" (change)="getTehsilByDistrictId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let dis of districts"
+                                                                    [value]="dis.DistrictCode">
+                                                                    {{dis.DistrictName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Tehsil</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="Province" formControlName="tehsilId" (change)="getzoneByTehsilId($event.target.value)">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let t of tehsils"
+                                                                    [value]="t.TehsilCode">
+                                                                    {{t.TehsilName}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select
+                                                            Zone</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="zone" formControlName="ZoneId" (change)="UpdateSearchObject($event.target.value,'Zone')">
+                                                                <option value="">Please Select...</option>
+                                                                <option *ngFor="let u of zones" [value]="u.ZoneId">
+                                                                    {{u.ZoneName}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Month -->
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select Month</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="month" formControlName="month" (change)="UpdateSearchObject($event.target.value,'month')">
+                                                            <option value="">Please Select...</option>
+                                                            <option *ngFor="let m of monthList" [value]="m.name">
+                                                                {{m.name}}</option>
+                                                        </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Year -->
+                                                    <div class="col-md-4 col-sm-12 form-group">
+                                                        <label for="exampleFormControlInput1" class="col-md-12">Select Year</label>
+                                                        <div class="col-md-12 col-sm-12">
+                                                            <select class="form-control digits" name="year" formControlName="year" (change)="UpdateSearchObject($event.target.value,'year')">
+                                                            <option value="">Please Select...</option>
+                                                            <option *ngFor="let y of yearList" [value]="y.name">
+                                                                {{y.name}}</option>
+                                                        </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 mb-3 form-group">
+                                                        <span>
+                                                            <div class="row">
+                                                                <div class="col-md-10">
+                                                                    &nbsp;
+                                                                </div>
+                                                                <div class="col-md-2" style="text-align: right;">
+                                                                    <button class="btn btn-primary"
+                                                                        (click)="SearchRecord()" type="button"><span><i class="fa fa-check text-white"></i></span> Search
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                </span>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                </div>
+            </div>
+            </ng-template>
+            </ngb-panel>
+            </ngb-accordion>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="job-search">
+                    <div class="card-header">
+                        <h5 style="font-size: medium;">MEAs Visit</h5>
+                        <!-- <a (click)="ExportList()" title="Export Data" style="cursor: pointer;;margin-right: 2%;;margin-bottom: 1%" class="btn btn-primary padding-4 float-right" type="button"><i
+                                        class="fa fa-file-excel-o text-white fa-lg "></i></a> -->
+                        <a (click)="ExportAllVisits()" title="Export Data" style="cursor: pointer;;margin-right: 2%;;margin-bottom: 1%" class="btn btn-primary padding-4 float-right" type="button"><i
+                                            class="fa fa-file-excel-o text-white fa-lg "></i></a>
+                    </div>
+                    <div class="card-body custom-datatable">
+                        <div class="form-row">
+                            <div class="col-xl-12">
+                                <input type='text' class="filter-ngx form-control" placeholder='Search by MEAs User Name/ Health Facility Name/ District' (keyup)='updateFilter($event)' style="float: right;" /></div>
+                        </div>
+                        <ngx-datatable class='bootstrap' [rows]='measUserVisit' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [reorderable]="reorderable" [count]="filterObj.totalRecords" [limit]="filterObj.size" [offset]="filterObj.pageNumber"
+                            [externalPaging]="true" (page)="setPage($event)">
+
+                            <ngx-datatable-column name="Sr#" [width]="40">
+                                <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                    {{ (filterObj.pageNumber * filterObj.size) +(rowIndex + 1) }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="District" [width]="80">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.DistrictName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Zone" [width]="80">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.ZoneName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Health Facility" [width]="200">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.HealthFacilityName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="HF Type" [width]="120">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.ModeName}}<br> ({{row.ShiftName}})
+                                </ng-template>
+                            </ngx-datatable-column>
+                         
+                            <ngx-datatable-column name="Month" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.Month}}, {{row.Year}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                           <!-- <ngx-datatable-column name="Year" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.Year}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                               <ngx-datatable-column name="Shift" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.ShiftName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Repeat Visit" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.IsRepeat == true ?'Yes':'No'}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Special Visit" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.IsSpecial == true ?'Yes':'No'}}
+                                </ng-template>
+                            </ngx-datatable-column> -->
+                            <ngx-datatable-column name="Visit Type" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.Visit}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Visit Status" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.IsVisited== true ?'Yes':'No'}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Visit Date" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.UpdatedDate}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="MEAs User" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.MEAsUserName}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="ContactNo" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.ContactNo}}
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="">
+                <thead>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display: none;">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table" id="tblUserVisits">
+                <thead>
+                    <tr>
+                        <td>Sr. No</td>
+                        <td t="s">Name</td>
+                        <td t="s">Contact #</td>
+                        <td t="s">Zone</td>
+                        <td t="s">Health Facility Name</td>
+                        <td>HF Type</td>
+                        <td>Shift</td>
+                        <td>Visited</td>
+                        <td>Visit Date</td>
+                        <td>Repeat Visit</td>
+                        <td t="s">Special Visit</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let visit of usersVisits;index as i">
+                        <td>{{i + 1}}</td>
+                        <td t="s">{{visit?.MEAsUserName}}</td>
+                        <td t="s">{{visit?.ContactNo}}</td>
+                        <td t="s">{{visit?.ZoneName}}</td>
+                        <td t="s">{{visit?.HealthFacilityName}}</td>
+                        <td t="s">{{visit?.ModeName}}</td>
+                        <td>{{visit?.ShiftName}}</td>
+                        <td>{{visit?.IsVisited == true ?'Yes':'No'}}</td>
+                        <td>{{visit?.UpdatedDate}}</td>
+                        <td>{{visit?.IsRepeat == true ?'Yes':'No'}}</td>
+                        <td>{{visit?.IsSpecial == true ?'Yes':'No'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
